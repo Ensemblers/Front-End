@@ -21,35 +21,9 @@ const CreateArtist = ({ navigation }) => {
   const [artist_genre, setartist_genre] = useState("");
   const [newArtistState, setNewArtistState] = useState("");
 
-  const newArtist = artist[0];
-  const { artist_id } = newArtist;
-  console.log(artist_id);
-
-  useEffect(() => {
-    const fetchdata = navigation.addListener("blur", async () => {
-      const newArtist = await addArtist({
-        user_id,
-        artist_name,
-        artist_genre,
-      });
-      setNewArtistState(newArtist);
-      console.log(newArtistState);
-    });
-    return fetchdata;
-  }, []);
-  //
-  // const fetchdata = navigation.addListener("target", async () => {
-  //   const setArtists = await getUserArtists(user_id);
-  //   const setVenues = await getUserVenues(user_id);
-
-  //   setUserArtists(setArtists);
-  //   setUserVenues(setVenues);
-
-  // return fetchdata;
-  // }, []);
-  // const createArtist = () => {};
-
-  // const createArtist = () => {};
+  // const newArtist = artist[0];
+  // const { artist_id } = newArtist;
+  // console.log(artist_id);
 
   const user_id = user.user_id;
   const popAction = StackActions.pop(1);
@@ -80,7 +54,21 @@ const CreateArtist = ({ navigation }) => {
       <Spacer>
         <Button
           title="Create Artist"
-          onPress={navigation.navigate("My Stuff")}
+          onPress={() => {
+            addArtist({
+              user_id,
+              artist_name,
+              artist_genre,
+            });
+            navigation.navigate("Artist Page");
+          }}
+          // onPress={async () =>
+          //   await addArtist({
+          //     user_id,
+          //     artist_name,
+          //     artist_genre,
+          //   })
+          // }
         />
       </Spacer>
     </View>

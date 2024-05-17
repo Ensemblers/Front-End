@@ -54,7 +54,7 @@ const MainTabNavigator = () => {
     <VenueProvider>
       <ArtistProvider>
         <Tab.Navigator
-          initialRouteName="My Stuff Tab"
+          initialRouteName="My Stuff"
           // initialRouteName="Artists Tab"
           // initialRouteName="Venues Tab"
           // initialRouteName="Concerts Tab"
@@ -62,15 +62,15 @@ const MainTabNavigator = () => {
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
 
-              if (route.name === "My Stuff Tab") {
+              if (route.name === "My Stuff") {
                 iconName = focused
                   ? "account-circle"
                   : "account-circle-outline";
-              } else if (route.name === "Artists Tab") {
+              } else if (route.name === "Artists") {
                 iconName = focused ? "account-music" : "account-music-outline";
-              } else if (route.name === "Venues Tab") {
+              } else if (route.name === "Venues") {
                 iconName = focused ? "curtains" : "curtains";
-              } else if (route.name === "Concerts Tab") {
+              } else if (route.name === "Concerts") {
                 iconName = focused
                   ? "ticket-confirmation"
                   : "ticket-confirmation-outline";
@@ -89,10 +89,10 @@ const MainTabNavigator = () => {
             tabBarInactiveTintColor: "grey",
           })}
         >
-          <Tab.Screen name="Artists Tab" component={ArtistsStackNavigator} />
-          <Tab.Screen name="Venues Tab" component={VenuesStackNavigator} />
-          <Tab.Screen name="Concerts Tab" component={ShowAllConcertsScreen} />
-          <Tab.Screen name="My Stuff Tab" component={MyStuffStackNavigator} />
+          <Tab.Screen name="Artists" component={ArtistsStackNavigator} />
+          <Tab.Screen name="Venues" component={VenuesStackNavigator} />
+          <Tab.Screen name="Concerts" component={ShowAllConcertsScreen} />
+          <Tab.Screen name="My Stuff" component={MyStuffStackNavigator} />
         </Tab.Navigator>
       </ArtistProvider>
     </VenueProvider>

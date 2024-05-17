@@ -10,14 +10,10 @@ const artistReducer = (state, action) => {
     case "get_userArtists":
       return action.payload;
     case "delete_artist":
-      // return action.payload;
-      return state.filter((artist) => artist.artist_id !== action.payload);
+      return action.payload;
+    // return state.filter((artist) => artist.artist_id !== action.payload);
     case "get_artist":
       return action.payload;
-    // return [
-    //   ...state,
-    //   state.filter((artist) => artist.artist_id === action.payload),
-    // ];
     case "edit_artist":
       return action.payload;
     default:
@@ -68,9 +64,7 @@ const getAllArtists = (dispatch) => async () => {
 const getArtist = (dispatch) => async (artist_id) => {
   try {
     const response = await ensemblersApi.get(`/artists/artist${artist_id}`);
-    // const artistData = response.data;
-    // artist = artistData[0];
-    console.log(response.data);
+
     dispatch({ type: "get_artist", payload: response.data });
   } catch (err) {
     console.log(err);
@@ -103,7 +97,6 @@ const editArtist =
   }) => {
     try {
       const response = await ensemblersApi.put(`/artists/artist${artist_id}`, {
-        artist_id,
         name,
         genre,
         email,
@@ -130,7 +123,7 @@ const deleteArtist =
       // const artistName = artist.artist_name;
       // const deletion = console.log(`${artistName} has been deleted.`);
 
-      dispatch({ type: "delete_artist", payload: artist_id });
+      dispatch({ type: "delete_artist", payload: response.data });
     } catch (err) {
       console.log(err);
     }

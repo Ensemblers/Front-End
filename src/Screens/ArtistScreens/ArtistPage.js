@@ -14,25 +14,26 @@ import { Context as AuthContext } from "../../context/AuthContext";
 
 const ArtistPage = ({ route, navigation }) => {
   const { state: user, getUser } = useContext(AuthContext);
-  const { state: artistState, getArtist } = useContext(ArtistContext);
-  const [artist, setArtist] = useState([]);
+  const { state: artist, getArtist } = useContext(ArtistContext);
+  // const [artist, setArtist] = useState([]);
 
-  const { artist_id } = route.params;
+  // const { artist_id } = route.params;
 
-  useEffect(() => {
-    const fetchdata = navigation.addListener("focus", async () => {
-      const artistInfo = await getArtist(artist_id);
-      setArtist(artistInfo);
-    });
-    return fetchdata;
-  }, [navigation]);
+  // useEffect(() => {
+  //   const fetchdata = navigation.addListener("focus", async () => {
+  //     const artistInfo = await getArtist(artist_id);
+  //     setArtist(artistInfo);
+  //   });
+  //   return fetchdata;
+  // }, [navigation]);
 
   const { user_id } = user;
-  const artistUser = artistState[0];
+  const artistUser = artist[0];
 
   const artist_user_id = artistUser.user_id;
 
   const {
+    artist_id,
     artist_name,
     artist_genre,
     artist_email,
@@ -42,9 +43,7 @@ const ArtistPage = ({ route, navigation }) => {
     artist_spotify,
     artist_youtube,
     artist_website,
-  } = artistState[0];
-
-  console.log(artist);
+  } = artist[0];
 
   const popAction = StackActions.pop(1);
 
@@ -55,14 +54,15 @@ const ArtistPage = ({ route, navigation }) => {
         style={styles.backIcon}
       >
         <AntDesign name="back" size={24} color="black" />
-        <Text>Back</Text>
+        <Text>My Stuff</Text>
       </TouchableOpacity>
       <View style={styles.container}>
         {artist_user_id === user_id ? (
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("Edit Artist Page", { artist_id })
-            }
+            onPress={() => {
+              getArtist(artist_id);
+              navigation.navigate("Edit Artist Page");
+            }}
             style={styles.editIcon}
           >
             <AntDesign name="edit" size={24} color="grey" />

@@ -69,8 +69,9 @@ const ShowMyStuff = ({ navigation }) => {
                 <TouchableOpacity
                   onPress={() => {
                     const artist_id = l.artist_id;
-                    // getArtist(artist_id);
-                    navigation.navigate("Artist Page", { artist_id });
+                    getArtist(artist_id);
+                    navigation.navigate("Artist Page");
+                    // navigation.navigate("Artist Page", { artist_id });
                   }}
                 >
                   <ListItem.Title style={styles.listTitle}>

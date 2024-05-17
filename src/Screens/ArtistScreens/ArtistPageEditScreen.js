@@ -15,23 +15,23 @@ import { Context as AuthContext } from "../../context/AuthContext";
 import Spacer from "../../components/Spacer";
 import { AntDesign } from "@expo/vector-icons";
 
-const ArtistPageEditScreen = ({ route, navigation }) => {
+const ArtistPageEditScreen = ({ navigation }) => {
   const { state: user } = useContext(AuthContext);
-  const { user_id } = user;
-
+  // const { user_id } = user;
+  console.log(user);
   const {
-    state: artistState,
+    state: artist,
     editArtist,
     deleteArtist,
     getUserArtists,
-    getAllArtists,
   } = useContext(ArtistContext);
 
-  const { artist_id } = route.params;
+  // const { artist_id } = route.params;
 
-  const artist = artistState.find((artist) => artist.artist_id === artist_id);
+  // const artist = artistState.find((artist) => artist.artist_id === artist_id);
 
   let {
+    artist_id,
     artist_name,
     artist_genre,
     artist_email,
@@ -41,7 +41,7 @@ const ArtistPageEditScreen = ({ route, navigation }) => {
     artist_spotify,
     artist_youtube,
     artist_website,
-  } = artist;
+  } = artist[0];
 
   const [name, setName] = useState(artist_name);
   const [genre, setGenre] = useState(artist_genre);
@@ -54,25 +54,6 @@ const ArtistPageEditScreen = ({ route, navigation }) => {
   const [website, setWebsite] = useState(artist_website);
 
   const popAction = StackActions.pop(1);
-
-  // const MainField = () => {
-  //   return (
-  //     <View>
-  //       {artist.map((l, i) => (
-  //         <View key={i} style={styles.inputRow}>
-  //           <Text style={styles.label}>Artist Name:</Text>
-  //           <TextInput
-  //             style={styles.input}
-  //             placeholder={l.artist_name}
-  //             onChangeText={() => {
-  //               setInput();
-  //             }}
-  //           />
-  //         </View>
-  //       ))}
-  //     </View>
-  //   );
-  // };
 
   return (
     <View>
@@ -184,17 +165,18 @@ const ArtistPageEditScreen = ({ route, navigation }) => {
             youtube,
             website,
           });
-          navigation.navigate("Artist Page", { artist_id });
+          // navigation.navigate("Artist Page", { artist_id });
+          navigation.navigate("Artist Page");
         }}
       />
 
       <Button
         title="Delete Artist"
         onPress={() => {
-          getUserArtists(user_id);
           deleteArtist({ artist_id });
+          // await getUserArtists(user_id);
 
-          navigation.navigate("My Stuff Tab");
+          navigation.navigate("My Stuff");
         }}
       />
     </View>
