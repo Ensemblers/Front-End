@@ -19,11 +19,6 @@ const CreateArtist = ({ navigation }) => {
 
   const [artist_name, setartist_name] = useState("");
   const [artist_genre, setartist_genre] = useState("");
-  const [newArtistState, setNewArtistState] = useState("");
-
-  // const newArtist = artist[0];
-  // const { artist_id } = newArtist;
-  // console.log(artist_id);
 
   const user_id = user.user_id;
   const popAction = StackActions.pop(1);
@@ -62,13 +57,6 @@ const CreateArtist = ({ navigation }) => {
             });
             navigation.navigate("Artist Page");
           }}
-          // onPress={async () =>
-          //   await addArtist({
-          //     user_id,
-          //     artist_name,
-          //     artist_genre,
-          //   })
-          // }
         />
       </Spacer>
     </View>

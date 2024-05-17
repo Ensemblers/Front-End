@@ -1,52 +1,58 @@
-import React, { useContext, useState } from "react";
-import { useIsFocused, useFocusEffect } from "@react-navigation/native";
-import { Button, Image } from "@rneui/themed";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
-import { Feather } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import React, { useContext } from "react";
 import { StackActions } from "@react-navigation/native";
+import { Button } from "@rneui/themed";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 import { Context as VenueContext } from "../../context/VenueContext";
 import { Context as AuthContext } from "../../context/AuthContext";
 
 const VenuePage = ({ navigation }) => {
-  const [data, setData] = useState(null);
-  const { state: state1, getVenue, deleteVenue } = useContext(VenueContext);
-  const { state: state2 } = useContext(AuthContext);
-  // const user_id = state2.token.data.user_id;
-  venue = state1[0];
-  const venue_id = venue.user_id;
-  const user_id = state2.user_id;
+  const { state: user, getUser } = useContext(AuthContext);
+  const { state: venue, getVenue } = useContext(VenueContext);
+
+  const { user_id } = user;
+  const venueUser = venue[0];
+
+  const venue_user_id = venueUser.user_id;
+
+  const {
+    venue_id,
+    venue_name,
+    venue_location,
+    venue_businessHours,
+    venue_description,
+    venue_website,
+  } = venue[0];
+
   const popAction = StackActions.pop(1);
 
   return (
     <View>
       <TouchableOpacity
-        onPress={() => navigation.dispatch(popAction)}
+        onPress={() => navigation.navigate("My Stuff")}
         style={styles.backIcon}
       >
         <AntDesign name="back" size={24} color="black" />
-        <Text>Back</Text>
+        <Text>My Stuff</Text>
       </TouchableOpacity>
       <View style={styles.container}>
-        {venue_id === user_id ? (
+        {venue_user_id === user_id ? (
           <TouchableOpacity
-            onPress={() => navigation.navigate("Edit Venue Page")}
+            onPress={() => {
+              getVenue(venue_id);
+              navigation.navigate("Edit Venue Page");
+            }}
             style={styles.editIcon}
           >
             <AntDesign name="edit" size={24} color="grey" />
           </TouchableOpacity>
         ) : null}
-        <Text style={{ marginVertical: 20, fontSize: 30 }}>
-          {venue.venue_name}
-        </Text>
-        <Text style={{ fontSize: 20 }}>{venue.venue_location}</Text>
-        {venue_id === user_id ? (
+        <Text style={{ marginVertical: 20, fontSize: 30 }}>{venue_name}</Text>
+        <Text style={{ fontSize: 20 }}>{venue_location}</Text>
+        <Text style={{ fontSize: 20 }}>{venue_businessHours}</Text>
+        <Text style={{ fontSize: 20 }}>{venue_description}</Text>
+        <Text style={{ fontSize: 20 }}>{venue_website}</Text>
+        {venue_user_id === user_id ? (
           <Button
             title="Manage Gigs"
             buttonStyle={{
@@ -70,16 +76,16 @@ const VenuePage = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  backIcon: {
-    alignSelf: "flex-start",
-    color: "grey",
-    padding: 10,
-  },
   container: {
     padding: 30,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  backIcon: {
+    alignSelf: "flex-start",
+    color: "grey",
+    padding: 10,
   },
   editIcon: {
     alignSelf: "flex-end",

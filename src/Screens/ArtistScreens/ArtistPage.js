@@ -1,31 +1,19 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext} from "react";
 import { StackActions } from "@react-navigation/native";
-import { Button, Image } from "@rneui/themed";
+import { Button } from "@rneui/themed";
 import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   TouchableOpacity,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Context as ArtistContext } from "../../context/ArtistContext";
 import { Context as AuthContext } from "../../context/AuthContext";
 
-const ArtistPage = ({ route, navigation }) => {
-  const { state: user, getUser } = useContext(AuthContext);
+const ArtistPage = ({ navigation }) => {
+  const { state: user  } = useContext(AuthContext);
   const { state: artist, getArtist } = useContext(ArtistContext);
-  // const [artist, setArtist] = useState([]);
-
-  // const { artist_id } = route.params;
-
-  // useEffect(() => {
-  //   const fetchdata = navigation.addListener("focus", async () => {
-  //     const artistInfo = await getArtist(artist_id);
-  //     setArtist(artistInfo);
-  //   });
-  //   return fetchdata;
-  // }, [navigation]);
 
   const { user_id } = user;
   const artistUser = artist[0];

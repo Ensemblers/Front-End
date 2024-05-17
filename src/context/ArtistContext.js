@@ -7,14 +7,13 @@ const artistReducer = (state, action) => {
       return action.payload;
     case "get_allArtists":
       return action.payload;
-    case "get_userArtists":
-      return action.payload;
-    case "delete_artist":
-      return action.payload;
-    // return state.filter((artist) => artist.artist_id !== action.payload);
     case "get_artist":
       return action.payload;
+    case "get_userArtists":
+      return action.payload;
     case "edit_artist":
+      return action.payload;
+    case "delete_artist":
       return action.payload;
     default:
       return state;
@@ -54,7 +53,6 @@ const addArtist =
 const getAllArtists = (dispatch) => async () => {
   try {
     const response = await ensemblersApi.get("/artists");
-
     dispatch({ type: "get_allArtists", payload: response.data });
   } catch (err) {
     console.log(err);
@@ -64,7 +62,6 @@ const getAllArtists = (dispatch) => async () => {
 const getArtist = (dispatch) => async (artist_id) => {
   try {
     const response = await ensemblersApi.get(`/artists/artist${artist_id}`);
-
     dispatch({ type: "get_artist", payload: response.data });
   } catch (err) {
     console.log(err);
@@ -74,7 +71,6 @@ const getArtist = (dispatch) => async (artist_id) => {
 const getUserArtists = (dispatch) => async (user_id) => {
   try {
     const response = await ensemblersApi.get(`/artists/user${user_id}`);
-
     dispatch({ type: "get_userArtists", payload: response.data });
   } catch (err) {
     console.log(err);
@@ -107,7 +103,6 @@ const editArtist =
         youtube,
         website,
       });
-
       dispatch({ type: "edit_artist", payload: response.data });
     } catch (err) {
       console.log(err);
@@ -119,10 +114,6 @@ const deleteArtist =
   async ({ artist_id }) => {
     try {
       const response = await ensemblersApi.delete(`/artists/${artist_id}`);
-      // const artist = response.data[0];
-      // const artistName = artist.artist_name;
-      // const deletion = console.log(`${artistName} has been deleted.`);
-
       dispatch({ type: "delete_artist", payload: response.data });
     } catch (err) {
       console.log(err);
@@ -133,11 +124,11 @@ export const { Context, Provider } = createDataContext(
   artistReducer,
   {
     addArtist,
-    deleteArtist,
     getAllArtists,
-    getUserArtists,
     getArtist,
+    getUserArtists,
     editArtist,
+    deleteArtist,
   },
   []
 );

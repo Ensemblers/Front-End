@@ -28,13 +28,6 @@ const ShowMyStuff = ({ navigation }) => {
 
   const { user_id } = user;
 
-  // const [userArtists, setUserArtists] = useState(() => {
-  //   getUserArtists(user_id);
-  // });
-
-  // const [userVenues, setUserVenues] = useState(() => {
-  //   getUserVenues(user_id);
-  // });
   const [userArtists, setUserArtists] = useState([]);
 
   const [userVenues, setUserVenues] = useState([]);
@@ -71,7 +64,6 @@ const ShowMyStuff = ({ navigation }) => {
                     const artist_id = l.artist_id;
                     getArtist(artist_id);
                     navigation.navigate("Artist Page");
-                    // navigation.navigate("Artist Page", { artist_id });
                   }}
                 >
                   <ListItem.Title style={styles.listTitle}>
@@ -90,35 +82,36 @@ const ShowMyStuff = ({ navigation }) => {
       <Spacer />
       <View style={styles.headerRow}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Create Venue")}
           style={styles.editIcon}
+          onPress={() => navigation.navigate("Create Venue")}
         >
           <Ionicons name="add-circle-outline" size={30} color="black" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>MY VENUES</Text>
       </View>
       <View>
-        {venue.map((l, i) => (
-          <ListItem key={i} bottomDivider style={styles.listItem}>
-            <ListItem.Content>
-              <TouchableOpacity
-                onPress={() => {
-                  const venue_id = l.venue_id;
-
-                  getVenue(venue_id);
-                  navigation.navigate("Venue Page");
-                }}
-              >
-                <ListItem.Title style={styles.listTitle}>
-                  {l.venue_name}
-                </ListItem.Title>
-                <ListItem.Subtitle style={styles.listSubtitle}>
-                  {l.venue_location}
-                </ListItem.Subtitle>
-              </TouchableOpacity>
-            </ListItem.Content>
-          </ListItem>
-        ))}
+        <ScrollView>
+          {venue.map((l, i) => (
+            <ListItem key={i} bottomDivider style={styles.listItem}>
+              <ListItem.Content>
+                <TouchableOpacity
+                  onPress={() => {
+                    const venue_id = l.venue_id;
+                    getVenue(venue_id);
+                    navigation.navigate("Venue Page");
+                  }}
+                >
+                  <ListItem.Title style={styles.listTitle}>
+                    {l.venue_name}
+                  </ListItem.Title>
+                  <ListItem.Subtitle style={styles.listSubtitle}>
+                    {l.venue_location}
+                  </ListItem.Subtitle>
+                </TouchableOpacity>
+              </ListItem.Content>
+            </ListItem>
+          ))}
+        </ScrollView>
       </View>
     </View>
   );

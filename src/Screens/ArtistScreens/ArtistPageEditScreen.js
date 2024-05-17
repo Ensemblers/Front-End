@@ -4,7 +4,6 @@ import {
   View,
   TextInput,
   Button,
-  FlatList,
   TouchableOpacity,
 } from "react-native";
 import { StackActions } from "@react-navigation/native";
@@ -17,18 +16,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 const ArtistPageEditScreen = ({ navigation }) => {
   const { state: user } = useContext(AuthContext);
-  // const { user_id } = user;
-  console.log(user);
-  const {
-    state: artist,
-    editArtist,
-    deleteArtist,
-    getUserArtists,
-  } = useContext(ArtistContext);
-
-  // const { artist_id } = route.params;
-
-  // const artist = artistState.find((artist) => artist.artist_id === artist_id);
+  const { state: artist, editArtist, deleteArtist } = useContext(ArtistContext);
 
   let {
     artist_id,
@@ -165,7 +153,6 @@ const ArtistPageEditScreen = ({ navigation }) => {
             youtube,
             website,
           });
-          // navigation.navigate("Artist Page", { artist_id });
           navigation.navigate("Artist Page");
         }}
       />
@@ -174,8 +161,6 @@ const ArtistPageEditScreen = ({ navigation }) => {
         title="Delete Artist"
         onPress={() => {
           deleteArtist({ artist_id });
-          // await getUserArtists(user_id);
-
           navigation.navigate("My Stuff");
         }}
       />
