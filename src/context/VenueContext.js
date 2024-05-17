@@ -78,14 +78,6 @@ const editVenue =
   (dispatch) =>
   async ({ venue_id, name, location, businessHours, description, website }) => {
     try {
-      console.log(
-        venue_id,
-        name,
-        location,
-        businessHours,
-        description,
-        website
-      );
       const response = await ensemblersApi.put(`/venues/venue${venue_id}`, {
         name,
         location,

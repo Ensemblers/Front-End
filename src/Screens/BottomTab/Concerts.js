@@ -10,7 +10,6 @@ import {
 import { Context as AuthContext } from "../../context/AuthContext";
 
 const ShowAllConcertsScreen = () => {
-  const { signout } = useContext(AuthContext);
   return (
     <View style={styles.screen}>
       <Text>Show All Concerts Screen</Text>

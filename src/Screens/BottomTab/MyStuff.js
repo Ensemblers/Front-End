@@ -16,7 +16,7 @@ import { Context as AuthContext } from "../../context/AuthContext";
 import Spacer from "../../components/Spacer";
 import { ListItem } from "@rneui/themed";
 
-const ShowMyStuff = ({ navigation }) => {
+const MyStuff = ({ navigation }) => {
   const { state: user } = useContext(AuthContext);
   const {
     state: artist,
@@ -169,4 +169,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ShowMyStuff;
+export default MyStuff;
