@@ -1,18 +1,13 @@
-import React, { useContext} from "react";
+import React, { useContext } from "react";
 import { StackActions } from "@react-navigation/native";
 import { Button } from "@rneui/themed";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Context as ArtistContext } from "../../context/ArtistContext";
 import { Context as AuthContext } from "../../context/AuthContext";
 
 const ArtistPage = ({ navigation }) => {
-  const { state: user  } = useContext(AuthContext);
+  const { state: user } = useContext(AuthContext);
   const { state: artist, getArtist } = useContext(ArtistContext);
 
   const { user_id } = user;
@@ -38,7 +33,7 @@ const ArtistPage = ({ navigation }) => {
   return (
     <View>
       <TouchableOpacity
-        onPress={() => navigation.navigate("My Stuff")}
+        onPress={() => navigation.navigate("My Stuff Page")}
         style={styles.backIcon}
       >
         <AntDesign name="back" size={24} color="black" />
@@ -79,7 +74,7 @@ const ArtistPage = ({ navigation }) => {
               borderRadius: 30,
             }}
             onPress={() => {
-              navigation.navigate("Artist Gig Manager");
+              navigation.navigate("Artist Gig Manager Home");
             }}
           />
         ) : null}

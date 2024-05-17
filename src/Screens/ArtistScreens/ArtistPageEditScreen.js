@@ -161,7 +161,7 @@ const ArtistPageEditScreen = ({ navigation }) => {
         title="Delete Artist"
         onPress={() => {
           deleteArtist({ artist_id });
-          navigation.navigate("My Stuff");
+          navigation.navigate("My Stuff Page");
         }}
       />
     </View>

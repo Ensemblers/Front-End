@@ -29,7 +29,7 @@ const VenuePage = ({ navigation }) => {
   return (
     <View>
       <TouchableOpacity
-        onPress={() => navigation.navigate("My Stuff")}
+        onPress={() => navigation.navigate("My Stuff Page")}
         style={styles.backIcon}
       >
         <AntDesign name="back" size={24} color="black" />

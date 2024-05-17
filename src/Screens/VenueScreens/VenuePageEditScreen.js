@@ -114,7 +114,7 @@ const VenuePageEditScreen = ({ navigation }) => {
         title="Delete Venue"
         onPress={() => {
           deleteVenue({ venue_id });
-          navigation.navigate("My Stuff");
+          navigation.navigate("My Stuff Page");
         }}
       />
     </View>
