@@ -1,10 +1,26 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import React, { useContext } from "react";
+import Title from "../../components/Title";
+import BackButton from "../../components/BackButton";
+import { Context as GigSlotContext } from "../../context/GigSlotContext";
+import { StackActions } from "@react-navigation/native";
 
-const GigSlot = () => {
+const GigSlot = ({ navigation }) => {
+  const { state: gigSlot } = useContext(GigSlotContext);
+  console.log(gigSlot);
+  const popAction = StackActions.pop(1);
   return (
     <View>
-      <Text>GigSlot</Text>
+      <BackButton
+        onPress={() => {
+          navigation.dispatch(popAction);
+        }}
+        navigateToText={"Back"}
+      />
+      <Title titleText="Gig Slot" />
+      <TouchableOpacity onPress={() => navigation.navigate("Edit Gig Slot")}>
+        <Text>Edit Gig Slot</Text>
+      </TouchableOpacity>
     </View>
   );
 };

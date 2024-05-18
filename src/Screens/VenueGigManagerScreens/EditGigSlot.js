@@ -1,10 +1,21 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
 
-const EditGigSlot = () => {
+import { StackActions } from "@react-navigation/native";
+import BackButton from "../../components/BackButton";
+
+const EditGigSlot = ({ navigation }) => {
+  const [date, setDate] = useState();
+  const [title, setTitle] = useState();
+  const popAction = StackActions.pop(1);
   return (
     <View>
-      <Text>EditGigSlot</Text>
+      <BackButton
+        onPress={() => {
+          navigation.dispatch(popAction);
+        }}
+        navigateToText={"Back"}
+      />
     </View>
   );
 };

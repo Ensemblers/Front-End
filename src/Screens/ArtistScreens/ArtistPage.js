@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Context as ArtistContext } from "../../context/ArtistContext";
 import { Context as AuthContext } from "../../context/AuthContext";
+import Title from "../../components/Title";
 
 const ArtistPage = ({ navigation }) => {
   const { state: user } = useContext(AuthContext);
@@ -51,7 +52,7 @@ const ArtistPage = ({ navigation }) => {
             <AntDesign name="edit" size={24} color="grey" />
           </TouchableOpacity>
         ) : null}
-        <Text style={{ marginVertical: 20, fontSize: 30 }}>{artist_name}</Text>
+        <Title titleText={artist_name} />
         <Text style={{ fontSize: 20 }}>{artist_genre}</Text>
         <Text style={{ fontSize: 20 }}>{artist_email}</Text>
         <Text style={{ fontSize: 20 }}>{artist_location}</Text>
@@ -74,7 +75,7 @@ const ArtistPage = ({ navigation }) => {
               borderRadius: 30,
             }}
             onPress={() => {
-              navigation.navigate("Artist Gig Manager Home");
+              navigation.navigate("Artist Gig Manager", { artist_id });
             }}
           />
         ) : null}

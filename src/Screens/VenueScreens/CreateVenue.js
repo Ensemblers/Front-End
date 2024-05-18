@@ -12,6 +12,8 @@ import { Context as AuthContext } from "../../context/AuthContext";
 import Spacer from "../../components/Spacer";
 import { AntDesign } from "@expo/vector-icons";
 import { StackActions } from "@react-navigation/native";
+import BackButton from "../../components/BackButton";
+import Title from "../../components/Title";
 
 const CreateVenue = ({ navigation }) => {
   const { state: venue, addVenue } = useContext(VenueContext);
@@ -26,13 +28,15 @@ const CreateVenue = ({ navigation }) => {
   return (
     <View>
       <TouchableOpacity
-        onPress={() => navigation.dispatch(popAction)}
+        onPress={() => {
+          navigation.dispatch(popAction);
+        }}
         style={styles.backIcon}
       >
         <AntDesign name="back" size={24} color="black" />
         <Text>Back</Text>
       </TouchableOpacity>
-      <Text style={styles.headerTitle}>MY VENUES</Text>
+      <Title titleText="My Venues" />
       <Text style={styles.label}>Venue Name:</Text>
       <TextInput
         style={styles.input}

@@ -6,33 +6,37 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { Context as ArtistContext } from "../../context/ArtistContext";
 import { Context as AuthContext } from "../../context/AuthContext";
 import Spacer from "../../components/Spacer";
-import { AntDesign } from "@expo/vector-icons";
 import { StackActions } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
+import BackButton from "../../components/BackButton";
+import Title from "../../components/Title";
 
 const CreateArtist = ({ navigation }) => {
-  const { state: artist, addArtist } = useContext(ArtistContext);
-  const { state: user, getUser } = useContext(AuthContext);
+  const { addArtist } = useContext(ArtistContext);
+  const { state } = useContext(AuthContext);
 
   const [artist_name, setartist_name] = useState("");
   const [artist_genre, setartist_genre] = useState("");
 
-  const user_id = user.user_id;
+  const user_id = state.user_id;
   const popAction = StackActions.pop(1);
 
   return (
     <View>
       <TouchableOpacity
-        onPress={() => navigation.dispatch(popAction)}
+        onPress={() => {
+          navigation.dispatch(popAction);
+        }}
         style={styles.backIcon}
       >
         <AntDesign name="back" size={24} color="black" />
         <Text>Back</Text>
       </TouchableOpacity>
-      <Text style={styles.headerTitle}>MY ARTISTS</Text>
+      <Title titleText="My Artists" />
       <Text style={styles.label}>Artist Name:</Text>
       <TextInput
         style={styles.input}

@@ -1,14 +1,40 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Calendar, LocaleConfig } from "react-native-calendars";
+import Title from "../../components/Title";
+import { Context as VenueContext } from "../../context/VenueContext";
 
-const VenueGigManager = () => {
+import { AntDesign } from "@expo/vector-icons";
+
+const VenueGigManager = ({ route, navigation }) => {
+  const { state: venue, getVenue } = useContext(VenueContext);
   const [selected, setSelected] = useState("");
+
+  const {
+    venue_id,
+    venue_name,
+    venue_location,
+    venue_businessHours,
+    venue_description,
+    venue_website,
+  } = venue[0];
 
   return (
     <View>
+      <TouchableOpacity
+        onPress={() => {
+          getVenue(venue_id);
+          navigation.navigate("Venue Page");
+        }}
+        style={styles.backIcon}
+      >
+        <AntDesign name="back" size={24} color="black" />
+        <Text>My Stuff</Text>
+      </TouchableOpacity>
+      {/* <BackButton navigateTo={} navigateToText="Artist Page" /> */}
       <View style={styles.header}>
-        <Text style={styles.headerText}>Gig Manager</Text>
+        <Title titleText="Venue Gig Manager" />
+        {/* <Text style={styles.headerText}>Gig Manager</Text> */}
       </View>
       <View style={styles.calendarView}>
         <Calendar
@@ -26,11 +52,17 @@ const VenueGigManager = () => {
         />
       </View>
       <View style={styles.gigButtons}>
-        <TouchableOpacity style={styles.buttons}>
-          <Text style={styles.text}>Create Gig Slot</Text>
+        <TouchableOpacity
+          style={styles.buttons}
+          onPress={() => navigation.navigate("Venue Gig Manager Settings")}
+        >
+          <Text style={styles.text}>Default</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttons}>
-          <Text style={styles.text}>Weekly Gig Schedule</Text>
+        <TouchableOpacity
+          style={styles.buttons}
+          onPress={() => navigation.navigate("Create Gig Slot")}
+        >
+          <Text style={styles.text}>+ Gig Slot</Text>
         </TouchableOpacity>
       </View>
     </View>

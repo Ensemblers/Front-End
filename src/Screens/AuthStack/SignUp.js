@@ -4,13 +4,11 @@ import { Context as AuthContext } from "../../context/AuthContext";
 import Spacer from "../../components/Spacer";
 import { Text, Button, Input } from "react-native-elements";
 import TextLink from "react-native-text-link";
-import CheckBox from "react-native-checkbox";
 
 const SignUpScreen = ({ navigation }) => {
   const { state, signup } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [checkState, setCheckState] = useState("");
 
   return (
     <View style={styles.container}>
@@ -48,17 +46,6 @@ const SignUpScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.terms}>
-        <CheckBox
-          style={styles.termsCheckbox}
-          label={null}
-          checked={false}
-          onChange={(checked) => {
-            setCheckState(checked);
-            console.log("I am checked", checked);
-          }}
-          //   value={artist_name}
-          // onChangeText={setartist_name}
-        />
         <TextLink
           style={styles.termsText}
           links={[

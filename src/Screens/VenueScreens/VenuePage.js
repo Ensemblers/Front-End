@@ -5,6 +5,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Context as VenueContext } from "../../context/VenueContext";
 import { Context as AuthContext } from "../../context/AuthContext";
+import BackButton from "../../components/BackButton";
+import Title from "../../components/Title";
 
 const VenuePage = ({ navigation }) => {
   const { state: user, getUser } = useContext(AuthContext);
@@ -47,7 +49,7 @@ const VenuePage = ({ navigation }) => {
             <AntDesign name="edit" size={24} color="grey" />
           </TouchableOpacity>
         ) : null}
-        <Text style={{ marginVertical: 20, fontSize: 30 }}>{venue_name}</Text>
+        <Title titleText={venue_name} />
         <Text style={{ fontSize: 20 }}>{venue_location}</Text>
         <Text style={{ fontSize: 20 }}>{venue_businessHours}</Text>
         <Text style={{ fontSize: 20 }}>{venue_description}</Text>
@@ -66,6 +68,7 @@ const VenuePage = ({ navigation }) => {
               borderRadius: 30,
             }}
             onPress={() => {
+              getVenue(venue_id);
               navigation.navigate("Venue Gig Manager");
             }}
           />

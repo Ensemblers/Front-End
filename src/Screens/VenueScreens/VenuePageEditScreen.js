@@ -13,6 +13,8 @@ import { Context as AuthContext } from "../../context/AuthContext";
 
 import Spacer from "../../components/Spacer";
 import { AntDesign } from "@expo/vector-icons";
+import BackButton from "../../components/BackButton";
+import Title from "../../components/Title";
 
 const VenuePageEditScreen = ({ navigation }) => {
   const { state: user } = useContext(AuthContext);
@@ -47,7 +49,7 @@ const VenuePageEditScreen = ({ navigation }) => {
         <AntDesign name="back" size={24} color="black" />
         <Text>Back</Text>
       </TouchableOpacity>
-      <Text style={styles.headerTitle}>MY VENUES</Text>
+      <Title titleText="My Venues" />
       <Spacer />
 
       <View style={styles.inputRow}>
