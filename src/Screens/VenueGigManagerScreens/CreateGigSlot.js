@@ -1,32 +1,42 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState, useContext } from "react";
 import CreatePage from "../../components/CreatePage";
+import { Context as VenueContext } from "../../context/VenueContext";
+import { StackActions } from "@react-navigation/native";
 import { Context as GigSlotContext } from "../../context/GigSlotContext";
-import { Context as AuthContext } from "../../context/AuthContext";
+import dateFormat, { masks } from "dateformat";
 
-const CreateGigSlot = ({ navigation }) => {
+const CreateGigSlot = ({ route, navigation }) => {
+  const { state: venue } = useContext(VenueContext);
   const { addGigSlot } = useContext(GigSlotContext);
-  const { state: user } = useContext(AuthContext);
-  const [date, setDate] = useState();
-  const [name, setName] = useState();
-  const { user_id } = user;
+  const [title, setTitle] = useState();
+  const [description, setDescription] = useState();
+  const popAction = StackActions.pop(1);
+  const { venue_id } = venue[0];
+  const { formattedDate } = route.params;
+  const date = formattedDate;
+  const displayDate = dateFormat(formattedDate, "d mmm yyyy");
 
   return (
     <View>
       <CreatePage
-        TitleText="Create Gig Slot"
-        FirstCategory="Date"
-        SecondCategory="Title"
-        value={date}
-        setValue={setDate}
-        value2={name}
-        setValue2={setName}
+        backOnPress={() => {
+          navigation.dispatch(popAction);
+        }}
+        navigateToText="Back"
+        TitleText={`Gig Slot:\n${displayDate}`}
+        FirstCategory="Start Time:"
+        SecondCategory="End Time"
+        value={title}
+        setValue={setTitle}
+        value2={description}
+        setValue2={setDescription}
         CreateButton="Create Gig Slot"
-        onPress={() => {
-          addGigSlot({
-            user_id,
+        createOnPress={async () => {
+          await addGigSlot({
+            venue_id,
             date,
-            name,
+            description,
           });
           navigation.navigate("Gig Slot");
         }}
@@ -37,4 +47,8 @@ const CreateGigSlot = ({ navigation }) => {
 
 export default CreateGigSlot;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  CreateGiGlsot: {
+    alignItems: "center",
+  },
+});

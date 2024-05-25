@@ -8,10 +8,12 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import Spacer from "./Spacer";
-
+import BackButton from "./BackButton";
 import Title from "./Title";
 
 const CreatePage = ({
+  backOnPress,
+  navigateToText,
   TitleText,
   FirstCategory,
   SecondCategory,
@@ -20,19 +22,26 @@ const CreatePage = ({
   value2,
   setValue2,
   CreateButton,
-  onPress,
+  createOnPress,
 }) => {
   return (
     <View>
+      <BackButton onPress={backOnPress} navigateToText={navigateToText} />
+      <Spacer />
+
       <Title titleText={TitleText} />
+      <Spacer />
+      <Spacer />
+
       <Text style={styles.label}>{FirstCategory}</Text>
       <TextInput style={styles.input} value={value} onChangeText={setValue} />
 
       <Text style={styles.label}>{SecondCategory}</Text>
       <TextInput style={styles.input} value={value2} onChangeText={setValue2} />
-      <Spacer>
-        <Button title={CreateButton} onPress={onPress} />
-      </Spacer>
+      <Spacer />
+      <Spacer />
+
+      <Button title={CreateButton} onPress={createOnPress} />
     </View>
   );
 };
@@ -46,21 +55,16 @@ const styles = StyleSheet.create({
     borderColor: "black",
     marginBottom: 15,
     padding: 5,
-    margin: 5,
+    marginHorizontal: 100,
   },
   label: {
     fontSize: 20,
     marginBottom: 5,
-    marginLeft: 5,
+    marginHorizontal: 100,
   },
   backIcon: {
     alignSelf: "flex-start",
     color: "grey",
     padding: 10,
-  },
-  headerTitle: {
-    fontSize: 30,
-    letterSpacing: 5,
-    fontWeight: "bold",
   },
 });

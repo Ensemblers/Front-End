@@ -1,6 +1,8 @@
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
+import { Provider as GigRequestProvider } from "../context/GigRequestContext";
+import { Provider as GigSlotProvider } from "../context/GigSlotContext";
 
 //SCREENS
 import ShowAllArtistsScreen from "../Screens/BottomTab/Artists";

@@ -12,6 +12,7 @@ const ArtistPage = ({ navigation }) => {
   const { state: artist, getArtist } = useContext(ArtistContext);
 
   const { user_id } = user;
+
   const artistUser = artist[0];
 
   const artist_user_id = artistUser.user_id;
@@ -75,7 +76,8 @@ const ArtistPage = ({ navigation }) => {
               borderRadius: 30,
             }}
             onPress={() => {
-              navigation.navigate("Artist Gig Manager", { artist_id });
+              getArtist(artist_id);
+              navigation.navigate("Artist Gig Manager");
             }}
           />
         ) : null}

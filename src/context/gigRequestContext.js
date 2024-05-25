@@ -23,28 +23,20 @@ const gigRequestReducer = (state, action) => {
 const addGigRequest =
   (dispatch) =>
   async ({
-    user_id,
-    gigRequest_name,
-    gigRequest_genre,
-    gigRequest_email,
-    gigRequest_location,
-    gigRequest_description,
-    gigRequest_instagram,
-    gigRequest_spotify,
-    gigRequest_youtube,
-    gigRequest_website,
+    artist_id,
+    gigSlot_id,
+    gigRequest_cost,
+    gigRequest_techRider,
+    gigRequest_terms,
+    gigRequest_status,
   }) => {
     const response = await ensemblersApi.post("/gigRequests", {
-      user_id,
-      gigRequest_name,
-      gigRequest_genre,
-      gigRequest_email,
-      gigRequest_location,
-      gigRequest_description,
-      gigRequest_instagram,
-      gigRequest_spotify,
-      gigRequest_youtube,
-      gigRequest_website,
+      artist_id,
+      gigSlot_id,
+      gigRequest_cost,
+      gigRequest_techRider,
+      gigRequest_terms,
+      gigRequest_status,
     });
 
     dispatch({ type: "add_gigRequest", payload: response.data });
@@ -121,6 +113,7 @@ const deleteGigRequest =
       const response = await ensemblersApi.delete(
         `/gigRequests/${gigRequest_id}`
       );
+      console.log(response.data);
       dispatch({ type: "delete_gigRequest", payload: response.data });
     } catch (err) {
       console.log(err);

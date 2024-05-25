@@ -1,26 +1,58 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { useState, useContext } from "react";
-import { Calendar, LocaleConfig } from "react-native-calendars";
+import React, { useContext, useCallback } from "react";
+import { Calendar } from "react-native-calendars";
+import { useFocusEffect } from "@react-navigation/native";
+
 import Title from "../../components/Title";
 import { Context as VenueContext } from "../../context/VenueContext";
+import { Context as GigSlotContext } from "../../context/GigSlotContext";
 
+import dateFormat from "dateformat";
 import { AntDesign } from "@expo/vector-icons";
 
-const VenueGigManager = ({ route, navigation }) => {
+const VenueGigManager = ({ navigation }) => {
   const { state: venue, getVenue } = useContext(VenueContext);
-  const [selected, setSelected] = useState("");
+  const {
+    state: gigSlot,
+    getAllGigSlots,
+    getGigSlot,
+  } = useContext(GigSlotContext);
 
   const {
     venue_id,
     venue_name,
-    venue_location,
-    venue_businessHours,
-    venue_description,
-    venue_website,
+    // venue_location,
+    // venue_businessHours,
+    // venue_description,
+    // venue_website,
   } = venue[0];
 
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchData() {
+        const getSlots = await getAllGigSlots();
+      }
+      fetchData();
+    }, [])
+  );
+
+  const allDates = gigSlot.map((i) => i.gigslot_date);
+
+  let dates = {};
+  allDates.forEach((i) => {
+    dates[i] = {
+      selected: true,
+      marked: true,
+      // selectedDotColor: "blue",
+    };
+  });
+
+  const findObject = (array, key, value) => {
+    return array.find((obj) => obj[key] === value);
+  };
+
   return (
-    <View>
+    <View style={styles.calendarView}>
       <TouchableOpacity
         onPress={() => {
           getVenue(venue_id);
@@ -31,38 +63,44 @@ const VenueGigManager = ({ route, navigation }) => {
         <AntDesign name="back" size={24} color="black" />
         <Text>My Stuff</Text>
       </TouchableOpacity>
-      {/* <BackButton navigateTo={} navigateToText="Artist Page" /> */}
       <View style={styles.header}>
-        <Title titleText="Venue Gig Manager" />
-        {/* <Text style={styles.headerText}>Gig Manager</Text> */}
+        <Title titleText={`${venue_name}\nGig Manager`} />
       </View>
-      <View style={styles.calendarView}>
-        <Calendar
-          style={styles.calendar}
-          onDayPress={(day) => {
-            setSelected(console.log(day.dateString));
-          }}
-          markedDates={{
-            [selected]: {
-              selected: true,
-              disableTouchEvent: true,
-              selectedDotColor: "orange",
-            },
-          }}
-        />
-      </View>
+      <Text style={styles.createSlotMessage}>Create a Gig Slot:</Text>
+      <Calendar
+        style={styles.calendar}
+        onDayPress={(day) => {
+          const gigSlotDate = new Date(day.dateString);
+          const formattedDate = dateFormat(gigSlotDate, "isoDate");
+          const selected = allDates.includes(formattedDate);
+          const thisGigSlot = findObject(
+            gigSlot,
+            "gigslot_date",
+            formattedDate
+          );
+
+          const goToGigSlot = async () => {
+            const gigSlot_id = thisGigSlot.gigslot_id;
+            await getGigSlot(gigSlot_id);
+            navigation.navigate("Gig Slot");
+          };
+          const goToCreateSlot = async () => {
+            await getVenue(venue_id);
+            navigation.navigate("Create Gig Slot", { formattedDate });
+          };
+
+          {
+            selected ? goToGigSlot() : goToCreateSlot();
+          }
+        }}
+        markedDates={dates}
+      />
       <View style={styles.gigButtons}>
         <TouchableOpacity
           style={styles.buttons}
           onPress={() => navigation.navigate("Venue Gig Manager Settings")}
         >
-          <Text style={styles.text}>Default</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttons}
-          onPress={() => navigation.navigate("Create Gig Slot")}
-        >
-          <Text style={styles.text}>+ Gig Slot</Text>
+          <Text style={styles.text}>Default Schedule</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -70,17 +108,27 @@ const VenueGigManager = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  createSlotMessage: {
+    marginHorizontal: 25,
+    fontWeight: "bold",
+    fontSize: 15,
+  },
   headerText: {
     fontSize: 30,
   },
   header: {
-    marginVertical: 40,
+    marginVertical: 30,
     alignItems: "center",
   },
-  calendarView: {},
+  calendarView: {
+    flex: 1,
+  },
   calendar: {
-    height: 450,
+    height: 350,
     borderRadius: 30,
+    marginTop: 10,
+    paddingTop: 10,
+    marginHorizontal: 20,
   },
   gigButtons: {
     marginTop: 50,

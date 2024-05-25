@@ -48,7 +48,9 @@ const MyStuff = ({ navigation }) => {
       <View style={styles.headerRow}>
         <TouchableOpacity
           style={styles.editIcon}
-          onPress={() => navigation.navigate("Create Artist")}
+          onPress={() => {
+            navigation.navigate("Create Artist");
+          }}
         >
           <Ionicons name="add-circle-outline" size={30} color="black" />
         </TouchableOpacity>

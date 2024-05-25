@@ -23,28 +23,20 @@ const gigSlotReducer = (state, action) => {
 const addGigSlot =
   (dispatch) =>
   async ({
-    user_id,
-    name,
-    genre,
-    email,
-    location,
+    venue_id,
+    date,
+    startTime,
+    endTime,
     description,
-    instagram,
-    spotify,
-    youtube,
-    website,
+    gigRequest_id,
   }) => {
     const response = await ensemblersApi.post("/gigSlots", {
-      user_id,
-      name,
-      gigSlot_genre,
-      email,
-      location,
+      venue_id,
+      date,
+      startTime,
+      endTime,
       description,
-      instagram,
-      spotify,
-      youtube,
-      website,
+      gigRequest_id,
     });
 
     dispatch({ type: "add_gigSlot", payload: response.data });
@@ -81,29 +73,23 @@ const editGigSlot =
   (dispatch) =>
   async ({
     gigSlot_id,
-    name,
-    genre,
-    email,
-    location,
+    venue_id,
+    date,
+    startTime,
+    endTime,
     description,
-    insta,
-    spotify,
-    youtube,
-    website,
+    gigRequest_id,
   }) => {
     try {
       const response = await ensemblersApi.put(
         `/gigSlots/gigSlot${gigSlot_id}`,
         {
-          name,
-          genre,
-          email,
-          location,
+          venue_id,
+          date,
+          startTime,
+          endTime,
           description,
-          insta,
-          spotify,
-          youtube,
-          website,
+          gigRequest_id,
         }
       );
       dispatch({ type: "edit_gigSlot", payload: response.data });

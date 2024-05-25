@@ -23,28 +23,28 @@ const concertReducer = (state, action) => {
 const addConcert =
   (dispatch) =>
   async ({
-    user_id,
-    artist_name,
-    artist_genre,
-    artist_email,
-    artist_location,
-    artist_description,
-    artist_instagram,
-    artist_spotify,
-    artist_youtube,
-    artist_website,
+    venue_id,
+    artist_id,
+    gigRequest_id,
+    gigSlot_id,
+    concert_startTime,
+    concert_endTime,
+    concert_date,
+    concert_cost,
+    concert_terms,
+    concert_description,
   }) => {
     const response = await ensemblersApi.post("/concerts", {
-      user_id,
-      artist_name,
-      artist_genre,
-      artist_email,
-      artist_location,
-      artist_description,
-      artist_instagram,
-      artist_spotify,
-      artist_youtube,
-      artist_website,
+      venue_id,
+      artist_id,
+      gigRequest_id,
+      gigSlot_id,
+      concert_startTime,
+      concert_endTime,
+      concert_date,
+      concert_cost,
+      concert_terms,
+      concert_description,
     });
 
     dispatch({ type: "add_concert", payload: response.data });
