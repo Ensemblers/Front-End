@@ -13,10 +13,8 @@ import { ListItem } from "@rneui/themed";
 import { Context as ArtistContext } from "../../context/ArtistContext";
 
 const ShowAllArtistsScreen = ({ navigation }) => {
-  const [data, setData] = useState(null);
-
   const {
-    state: state1,
+    state: artist,
     getAllArtists,
     deleteArtist,
     getArtist,
@@ -26,7 +24,6 @@ const ShowAllArtistsScreen = ({ navigation }) => {
     useCallback(() => {
       async function unsubscribe() {
         const allArtists = await getAllArtists();
-        setData(data);
       }
       unsubscribe();
     }, [])
@@ -38,7 +35,7 @@ const ShowAllArtistsScreen = ({ navigation }) => {
         <Text style={styles.headerTitle}>ARTISTS</Text>
       </View>
       <View>
-        {state1.map((l, i) => (
+        {artist.map((l, i) => (
           <ListItem key={i} bottomDivider style={styles.listItem}>
             {/* <Avatar source={{ uri: "" }} /> */}
             <ListItem.Content>
@@ -61,35 +58,6 @@ const ShowAllArtistsScreen = ({ navigation }) => {
           </ListItem>
         ))}
       </View>
-      {/* <FlatList
-        data={state1}
-        keyExtractor={(item) => item.artist_id}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.row}>
-              <TouchableOpacity
-                onPress={() => {
-                  const artist_id = item.artist_id;
-                  getArtist(artist_id);
-                  navigation.navigate("Artist Page");
-                }}
-              >
-                <Text style={styles.title}>
-                  {item.artist_id} - {item.artist_name}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  const artist_id = item.artist_id;
-                  deleteArtist(artist_id);
-                }}
-              >
-                <Feather style={styles.icon} name="trash" />
-              </TouchableOpacity>
-            </View>
-          );
-        }}
-      /> */}
     </View>
   );
 };

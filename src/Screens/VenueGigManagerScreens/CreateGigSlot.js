@@ -12,8 +12,9 @@ const CreateGigSlot = ({ route, navigation }) => {
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const popAction = StackActions.pop(1);
-  const { venue_id } = venue[0];
+  const { venue_id, venue_name, venue_location } = venue[0];
   const { formattedDate } = route.params;
+  const location = venue_location;
   const date = formattedDate;
   const displayDate = dateFormat(formattedDate, "d mmm yyyy");
 
@@ -25,20 +26,25 @@ const CreateGigSlot = ({ route, navigation }) => {
         }}
         navigateToText="Back"
         TitleText={`Gig Slot:\n${displayDate}`}
-        FirstCategory="Start Time:"
-        SecondCategory="End Time"
+        FirstCategory="Gig Name:"
+        SecondCategory="Description"
         value={title}
         setValue={setTitle}
         value2={description}
         setValue2={setDescription}
         CreateButton="Create Gig Slot"
         createOnPress={async () => {
+          const status = "pending";
           await addGigSlot({
+            title,
+            location,
             venue_id,
+            venue_name,
             date,
             description,
+            status,
           });
-          navigation.navigate("Gig Slot");
+          navigation.navigate("Venue Gig Manager Home");
         }}
       />
     </View>

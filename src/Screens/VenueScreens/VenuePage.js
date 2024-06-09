@@ -21,7 +21,7 @@ const VenuePage = ({ navigation }) => {
     venue_id,
     venue_name,
     venue_location,
-    venue_businessHours,
+    venue_business_hours,
     venue_description,
     venue_website,
   } = venue[0];
@@ -51,7 +51,7 @@ const VenuePage = ({ navigation }) => {
         ) : null}
         <Title titleText={venue_name} />
         <Text style={{ fontSize: 20 }}>{venue_location}</Text>
-        <Text style={{ fontSize: 20 }}>{venue_businessHours}</Text>
+        <Text style={{ fontSize: 20 }}>{venue_business_hours}</Text>
         <Text style={{ fontSize: 20 }}>{venue_description}</Text>
         <Text style={{ fontSize: 20 }}>{venue_website}</Text>
         {venue_user_id === user_id ? (

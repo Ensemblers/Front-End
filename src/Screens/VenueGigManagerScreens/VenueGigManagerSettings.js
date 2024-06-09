@@ -3,7 +3,6 @@ import React from "react";
 import Title from "../../components/Title";
 import { CheckBox } from "@rneui/themed";
 import BackButton from "../../components/BackButton";
-import SelectDropdown from "react-native-select-dropdown";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { StackActions } from "@react-navigation/native";
 

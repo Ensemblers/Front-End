@@ -9,8 +9,6 @@ const EditGigSlot = ({ navigation }) => {
   const { state: gigSlot, deleteGigSlot } = useContext(GigSlotContext);
   const [date, setDate] = useState();
   const [title, setTitle] = useState();
-  const { gigslot_id } = gigSlot[0];
-  const gigSlot_id = gigslot_id;
   const popAction = StackActions.pop(1);
   return (
     <View>
@@ -23,7 +21,9 @@ const EditGigSlot = ({ navigation }) => {
       <Button
         title="Delete Gig Slot"
         onPress={() => {
-          deleteGigSlot({ gigSlot_id });
+          const { gig_slot_id } = gigSlot[0];
+
+          deleteGigSlot({ gig_slot_id });
           navigation.navigate("Venue Gig Manager Home");
         }}
       />

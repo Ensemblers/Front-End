@@ -10,6 +10,7 @@ import ArtistPageEditScreen from "../Screens/ArtistScreens/ArtistPageEditScreen"
 import VenuePage from "../Screens/VenueScreens/VenuePage";
 import CreateVenue from "../Screens/VenueScreens/CreateVenue";
 import VenuePageEditScreen from "../Screens/VenueScreens/VenuePageEditScreen";
+import VenueGoogleAuth from "../Screens/VenueScreens/VenueGoogleAuth";
 
 //NAVIGATORS
 import ArtistGigManagerNavigator from "./ArtistGigManagerNavigator";
@@ -28,6 +29,7 @@ export default MyStuffNavigator = () => {
       <Stack.Screen name="My Stuff Page" component={MyStuff} />
       <Stack.Screen name="Create Artist" component={CreateArtist} />
       <Stack.Screen name="Create Venue" component={CreateVenue} />
+      <Stack.Screen name="Venue Google Auth" component={VenueGoogleAuth} />
       <Stack.Screen name="Artist Page" component={ArtistPage} />
       <Stack.Screen name="Venue Page" component={VenuePage} />
       <Stack.Screen name="Edit Artist Page" component={ArtistPageEditScreen} />

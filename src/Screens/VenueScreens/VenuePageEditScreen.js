@@ -25,14 +25,14 @@ const VenuePageEditScreen = ({ navigation }) => {
     venue_id,
     venue_name,
     venue_location,
-    venue_businessHours,
+    venue_business_hours,
     venue_description,
     venue_website,
   } = venue[0];
 
   const [name, setName] = useState(venue_name);
   const [location, setLocation] = useState(venue_location);
-  const [businessHours, setBusinessHours] = useState(venue_businessHours);
+  const [businessHours, setBusinessHours] = useState(venue_business_hours);
   const [description, setDescription] = useState(venue_description);
   const [website, setWebsite] = useState(venue_website);
 
@@ -100,11 +100,12 @@ const VenuePageEditScreen = ({ navigation }) => {
       <Button
         title="Update Venue"
         onPress={() => {
+          const business_hours = businessHours;
           editVenue({
             venue_id,
             name,
             location,
-            businessHours,
+            business_hours,
             description,
             website,
           });

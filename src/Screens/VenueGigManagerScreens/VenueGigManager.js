@@ -1,17 +1,17 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { useContext, useCallback } from "react";
+import React, { useContext, useCallback, useState } from "react";
 import { Calendar } from "react-native-calendars";
 import { useFocusEffect } from "@react-navigation/native";
-
 import Title from "../../components/Title";
 import { Context as VenueContext } from "../../context/VenueContext";
 import { Context as GigSlotContext } from "../../context/GigSlotContext";
-
 import dateFormat from "dateformat";
 import { AntDesign } from "@expo/vector-icons";
+import { Context as ConcertContext } from "../../context/ConcertContext";
 
 const VenueGigManager = ({ navigation }) => {
   const { state: venue, getVenue } = useContext(VenueContext);
+
   const {
     state: gigSlot,
     getAllGigSlots,
@@ -19,37 +19,45 @@ const VenueGigManager = ({ navigation }) => {
   } = useContext(GigSlotContext);
 
   const {
-    venue_id,
-    venue_name,
-    // venue_location,
-    // venue_businessHours,
-    // venue_description,
-    // venue_website,
-  } = venue[0];
+    state: concert,
+    getConcert,
+    getAllConcerts,
+  } = useContext(ConcertContext);
+
+  const { venue_id, venue_name } = venue[0];
 
   useFocusEffect(
     useCallback(() => {
       async function fetchData() {
         const getSlots = await getAllGigSlots();
+        const getConcerts = await getAllConcerts();
       }
       fetchData();
-    }, [])
+    }, [allPendingDates])
+  );
+  const concerts = gigSlot.filter(
+    (i) => i.venue_id === `${venue_id}` && i.gig_slot_status === "concert"
   );
 
-  const allDates = gigSlot.map((i) => i.gigslot_date);
+  const allConcertDates = [...new Set(concerts.map((i) => i.gig_slot_date))];
+
+  const venueGigSlots = gigSlot.filter(
+    (i) => i.venue_id === `${venue_id}` && i.gig_slot_status === "pending"
+  );
+
+  const allPendingDates = [
+    ...new Set(venueGigSlots.map((i) => i.gig_slot_date)),
+  ];
 
   let dates = {};
-  allDates.forEach((i) => {
-    dates[i] = {
-      selected: true,
-      marked: true,
-      // selectedDotColor: "blue",
-    };
+
+  allConcertDates.forEach((i) => {
+    dates[i] = { selected: true, marked: true, selectedColor: "red" };
   });
 
-  const findObject = (array, key, value) => {
-    return array.find((obj) => obj[key] === value);
-  };
+  allPendingDates.forEach((i) => {
+    dates[i] = { selected: true, marked: true, selectedColor: "blue" };
+  });
 
   return (
     <View style={styles.calendarView}>
@@ -72,25 +80,50 @@ const VenueGigManager = ({ navigation }) => {
         onDayPress={(day) => {
           const gigSlotDate = new Date(day.dateString);
           const formattedDate = dateFormat(gigSlotDate, "isoDate");
-          const selected = allDates.includes(formattedDate);
-          const thisGigSlot = findObject(
-            gigSlot,
-            "gigslot_date",
-            formattedDate
+
+          const thisGigSlot = gigSlot.filter(
+            (i) =>
+              i.gig_slot_date === formattedDate && i.venue_id === `${venue_id}`
           );
 
           const goToGigSlot = async () => {
-            const gigSlot_id = thisGigSlot.gigslot_id;
-            await getGigSlot(gigSlot_id);
+            const { gig_slot_id } = thisGigSlot[0];
+            await getGigSlot(gig_slot_id);
             navigation.navigate("Gig Slot");
           };
-          const goToCreateSlot = async () => {
-            await getVenue(venue_id);
-            navigation.navigate("Create Gig Slot", { formattedDate });
+
+          const goToConcert = async () => {
+            const { gig_slot_id } = thisGigSlot[0];
+            const thisConcert = concert.filter(
+              (i) => i.gig_slot_id === `${gig_slot_id}`
+            );
+            const { concert_id } = thisConcert[0];
+            await getConcert(concert_id);
+            navigation.navigate("Concert Page");
           };
 
+          const goToCreateSlot = async () => {
+            await getVenue(venue_id);
+            navigation.navigate("Create Gig Slot", {
+              formattedDate,
+            });
+          };
+
+          const gigSlotStatusSwitch = () => {
+            const { gig_slot_status } = thisGigSlot[0];
+            switch (gig_slot_status) {
+              case "pending":
+                goToGigSlot();
+                break;
+              case "concert":
+                goToConcert();
+                break;
+            }
+          };
           {
-            selected ? goToGigSlot() : goToCreateSlot();
+            thisGigSlot[0] === undefined
+              ? goToCreateSlot()
+              : gigSlotStatusSwitch();
           }
         }}
         markedDates={dates}

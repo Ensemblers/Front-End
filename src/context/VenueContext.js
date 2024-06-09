@@ -26,19 +26,22 @@ const addVenue =
     user_id,
     venue_name,
     venue_location,
-    venue_businessHours,
+    venue_business_hours,
     venue_description,
     venue_website,
+    venue_admin_users,
   }) => {
     try {
       const response = await ensemblersApi.post("/venues", {
         user_id,
         venue_name,
         venue_location,
-        venue_businessHours,
+        venue_business_hours,
         venue_description,
         venue_website,
+        venue_admin_users,
       });
+
       dispatch({ type: "add_venue", payload: response.data });
     } catch (err) {
       console.log(err);
@@ -76,14 +79,23 @@ const getUserVenues = (dispatch) => async (user_id) => {
 
 const editVenue =
   (dispatch) =>
-  async ({ venue_id, name, location, businessHours, description, website }) => {
+  async ({
+    venue_id,
+    name,
+    location,
+    business_hours,
+    description,
+    website,
+    admin_users,
+  }) => {
     try {
       const response = await ensemblersApi.put(`/venues/venue${venue_id}`, {
         name,
         location,
-        businessHours,
+        business_hours,
         description,
         website,
+        admin_users,
       });
       dispatch({ type: "edit_venue", payload: response.data });
     } catch (err) {

@@ -26,27 +26,34 @@ const addArtist =
     user_id,
     artist_name,
     artist_genre,
+    artist_number_of_members,
+    artist_solo_instrument,
     artist_email,
     artist_location,
     artist_description,
+    artist_tech_rider,
     artist_instagram,
     artist_spotify,
     artist_youtube,
     artist_website,
+    artist_admin_users,
   }) => {
     const response = await ensemblersApi.post("/artists", {
       user_id,
       artist_name,
       artist_genre,
+      artist_number_of_members,
+      artist_solo_instrument,
       artist_email,
       artist_location,
       artist_description,
+      artist_tech_rider,
       artist_instagram,
       artist_spotify,
       artist_youtube,
       artist_website,
+      artist_admin_users,
     });
-
     dispatch({ type: "add_artist", payload: response.data });
   };
 
@@ -83,25 +90,33 @@ const editArtist =
     artist_id,
     name,
     genre,
+    number_of_members,
+    solo_instrument,
     email,
     location,
     description,
-    insta,
+    tech_rider,
+    instagram,
     spotify,
     youtube,
     website,
+    admin_users,
   }) => {
     try {
       const response = await ensemblersApi.put(`/artists/artist${artist_id}`, {
         name,
         genre,
+        number_of_members,
+        solo_instrument,
         email,
         location,
         description,
-        insta,
+        tech_rider,
+        instagram,
         spotify,
         youtube,
         website,
+        admin_users,
       });
       dispatch({ type: "edit_artist", payload: response.data });
     } catch (err) {

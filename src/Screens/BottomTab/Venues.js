@@ -15,7 +15,7 @@ const ShowAllVenuesScreen = ({ navigation }) => {
   const [data, setData] = useState(null);
 
   const {
-    state: state1,
+    state: venue,
     getAllVenues,
     deleteVenue,
     getVenue,
@@ -37,7 +37,7 @@ const ShowAllVenuesScreen = ({ navigation }) => {
         <Text style={styles.headerTitle}>VENUES</Text>
       </View>
       <View>
-        {state1.map((l, i) => (
+        {venue.map((l, i) => (
           <ListItem key={i} bottomDivider style={styles.listItem}>
             {/* <Avatar source={{ uri: "" }} /> */}
             <ListItem.Content>
@@ -60,37 +60,6 @@ const ShowAllVenuesScreen = ({ navigation }) => {
           </ListItem>
         ))}
       </View>
-      {/* <Text>Venue Page</Text>
-      <FlatList
-        data={state1}
-        keyExtractor={(item) => item.venue_id}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.row}>
-              <TouchableOpacity
-                onPress={() => {
-                  const venue_id = item.venue_id;
-
-                  getVenue(venue_id);
-                  navigation.navigate("Venue Page");
-                }}
-              >
-                <Text style={styles.title}>
-                  {item.venue_id} - {item.venue_name}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  const venue_id = item.venue_id;
-                  deleteVenue(venue_id);
-                }}
-              >
-                <Feather style={styles.icon} name="trash" />
-              </TouchableOpacity>
-            </View>
-          );
-        }}
-      /> */}
     </View>
   );
 };

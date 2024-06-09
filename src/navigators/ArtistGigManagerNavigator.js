@@ -6,8 +6,8 @@ import { Provider as GigSlotProvider } from "../context/GigSlotContext";
 
 //SCREENS
 import ArtistGigManager from "../Screens/ArtistGigManagerScreens/ArtistGigManager";
-import ArtistGigSearch from "../Screens/ArtistGigManagerScreens/ArtistGigSearch";
 import ArtistGigSearchResults from "../Screens/ArtistGigManagerScreens/ArtistGigSearchResults";
+import ConcertPage from "../Screens/ConcertScreens/ConcertPage";
 
 export default ArtistGigManagerNavigator = () => {
   const Stack = createStackNavigator();
@@ -23,14 +23,12 @@ export default ArtistGigManagerNavigator = () => {
             name="Artist Gig Manager Home"
             component={ArtistGigManager}
           />
-          <Stack.Screen
-            name="Artist Gig Search Page"
-            component={ArtistGigSearch}
-          />
+
           <Stack.Screen
             name="Artist Gig Search Results"
             component={ArtistGigSearchResults}
           />
+          <Stack.Screen name="Concert Page" component={ConcertPage} />
         </Stack.Navigator>
       </GigRequestProvider>
     </GigSlotProvider>

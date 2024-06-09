@@ -13,6 +13,8 @@ const gigSlotReducer = (state, action) => {
       return action.payload;
     case "edit_gigSlot":
       return action.payload;
+    case "edit_gigSlot_status":
+      return action.payload;
     case "delete_gigSlot":
       return action.payload;
     default:
@@ -23,20 +25,28 @@ const gigSlotReducer = (state, action) => {
 const addGigSlot =
   (dispatch) =>
   async ({
-    venue_id,
+    title,
+    location,
     date,
-    startTime,
-    endTime,
+    start_time,
+    end_time,
     description,
-    gigRequest_id,
+    status,
+    venue_id,
+    venue_name,
+    gig_request_id,
   }) => {
-    const response = await ensemblersApi.post("/gigSlots", {
-      venue_id,
+    const response = await ensemblersApi.post("/gig_slots", {
+      title,
+      location,
       date,
-      startTime,
-      endTime,
+      start_time,
+      end_time,
       description,
-      gigRequest_id,
+      status,
+      venue_id,
+      venue_name,
+      gig_request_id,
     });
 
     dispatch({ type: "add_gigSlot", payload: response.data });
@@ -44,16 +54,18 @@ const addGigSlot =
 
 const getAllGigSlots = (dispatch) => async () => {
   try {
-    const response = await ensemblersApi.get("/gigSlots");
+    const response = await ensemblersApi.get("/gig_slots");
     dispatch({ type: "get_allGigSlots", payload: response.data });
   } catch (err) {
     console.log(err);
   }
 };
 
-const getGigSlot = (dispatch) => async (gigSlot_id) => {
+const getGigSlot = (dispatch) => async (gig_slot_id) => {
   try {
-    const response = await ensemblersApi.get(`/gigSlots/gigSlot${gigSlot_id}`);
+    const response = await ensemblersApi.get(
+      `/gig_slots/gig_slot${gig_slot_id}`
+    );
     dispatch({ type: "get_gigSlot", payload: response.data });
   } catch (err) {
     console.log(err);
@@ -62,7 +74,7 @@ const getGigSlot = (dispatch) => async (gigSlot_id) => {
 
 const getUserGigSlots = (dispatch) => async (user_id) => {
   try {
-    const response = await ensemblersApi.get(`/gigSlots/user${user_id}`);
+    const response = await ensemblersApi.get(`/gig_slots/user${user_id}`);
     dispatch({ type: "get_userGigSlots", payload: response.data });
   } catch (err) {
     console.log(err);
@@ -72,24 +84,32 @@ const getUserGigSlots = (dispatch) => async (user_id) => {
 const editGigSlot =
   (dispatch) =>
   async ({
-    gigSlot_id,
+    gig_slot_id,
+    gig_slot_title,
+    gig_slot_location,
+    gig_slot_date,
+    gig_slot_start_time,
+    gig_slot_end_time,
+    gig_slot_description,
+    gig_slot_status,
     venue_id,
-    date,
-    startTime,
-    endTime,
-    description,
-    gigRequest_id,
+    venue_name,
+    gig_request_id,
   }) => {
     try {
       const response = await ensemblersApi.put(
-        `/gigSlots/gigSlot${gigSlot_id}`,
+        `/gig_slots/gig_slot${gig_slot_id}`,
         {
+          gig_slot_title,
+          gig_slot_location,
+          gig_slot_date,
+          gig_slot_start_time,
+          gig_slot_end_time,
+          gig_slot_description,
+          gig_slot_status,
           venue_id,
-          date,
-          startTime,
-          endTime,
-          description,
-          gigRequest_id,
+          venue_name,
+          gig_request_id,
         }
       );
       dispatch({ type: "edit_gigSlot", payload: response.data });
@@ -98,11 +118,29 @@ const editGigSlot =
     }
   };
 
+const editGigSlotStatus =
+  (dispatch) =>
+  async ({ gig_slot_id, gig_slot_status }) => {
+    try {
+      console.log(gig_slot_id, gig_slot_status);
+      const response = await ensemblersApi.patch(
+        `/gig_slots/slot_status${gig_slot_id}`,
+        {
+          gig_slot_status,
+        }
+      );
+
+      dispatch({ type: "edit_gigSlot_status", payload: response.data });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 const deleteGigSlot =
   (dispatch) =>
-  async ({ gigSlot_id }) => {
+  async ({ gig_slot_id }) => {
     try {
-      const response = await ensemblersApi.delete(`/gigSlots/${gigSlot_id}`);
+      const response = await ensemblersApi.delete(`/gig_slots/${gig_slot_id}`);
       dispatch({ type: "delete_gigSlot", payload: response.data });
     } catch (err) {
       console.log(err);
@@ -117,6 +155,7 @@ export const { Context, Provider } = createDataContext(
     getGigSlot,
     getUserGigSlots,
     editGigSlot,
+    editGigSlotStatus,
     deleteGigSlot,
   },
   []
