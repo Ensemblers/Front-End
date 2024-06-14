@@ -24,10 +24,8 @@ const VenueGoogleAuth = ({ navigation, route }) => {
   const venue_name = venueSearch.name;
   const venue_location = venueSearch.formatted_address;
   const venue_description = venueSearch.editorial_summary.overview;
-  const venue_business_hours = venueSearch.opening_hours.weekday_text;
+  const venue_business_hours = venueSearch.opening_hours;
   const venue_website = venueSearch.website;
-
-  console.log(venue_description, venue_business_hours);
 
   //   const placeID = venueSearch.place_id;
   //   const rating = venueSearch.user_ratings_total;
@@ -47,6 +45,24 @@ const VenueGoogleAuth = ({ navigation, route }) => {
       <Spacer />
       <TouchableOpacity
         onPress={async () => {
+          console.log(
+            user_id,
+            venue_name,
+            venue_location,
+            venue_description,
+            venue_business_hours,
+            venue_website
+          );
+          // {
+          //   description.overview
+          //     ? (venue_description = description.overview)
+          //     : (venue_description = null);
+          // }
+          // {
+          //   business_hours.weekday_text
+          //     ? (venue_business_hours = business_hours.weekday_text)
+          //     : (venue_business_hours = null);
+          // }
           await addVenue({
             user_id,
             venue_name,

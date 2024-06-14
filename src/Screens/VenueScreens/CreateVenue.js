@@ -65,34 +65,46 @@ const CreateVenue = ({ navigation }) => {
         }}
       /> */}
       <Spacer />
-      <View styles={{ heigh: 100 }}>
-        <GooglePlacesAutocomplete
-          placeholder="Search"
-          styles={{ container: { flex: 0 } }}
-          onPress={(data, details = null) => {
-            const results = (data, details);
-            setVenueSearch(results);
-          }}
-          fetchDetails={true}
-          query={{
-            key: "AIzaSyCuFsKofy_0ovUjWiO7yk6TKk6y7BnNHCc",
-            language: "en",
-            components: "country:nl",
-          }}
-          // renderRightButton
-          onFail={(error) => console.log(error)}
-          // requestUrl={{
-          //   url: "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api",
-          //   useOnPlatform: "web",
-          // }}
-        />
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Venue Google Auth", { venueSearch });
-          }}
-        >
-          <Text>Search</Text>
-        </TouchableOpacity>
+      <View style={styles.page}>
+        <View style={styles.searchBar}>
+          <GooglePlacesAutocomplete
+            placeholder="Search"
+            styles={{
+              container: {
+                flex: 0,
+                margin: 20,
+                borderColor: "grey",
+                // borderWidth: 1,
+                borderRadius: 15,
+              },
+            }}
+            onPress={(data, details = null) => {
+              const results = (data, details);
+              setVenueSearch(results);
+            }}
+            fetchDetails={true}
+            query={{
+              key: "AIzaSyCuFsKofy_0ovUjWiO7yk6TKk6y7BnNHCc",
+              language: "en",
+              // components: "country:nl",
+            }}
+            // renderRightButton
+            onFail={(error) => console.log(error)}
+            // requestUrl={{
+            //   url: "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api",
+            //   useOnPlatform: "web",
+            // }}
+          />
+        </View>
+        <View style={styles.buttonView}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Venue Google Auth", { venueSearch });
+            }}
+          >
+            <Text style={styles.buttonText}>Search</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -101,6 +113,25 @@ const CreateVenue = ({ navigation }) => {
 export default CreateVenue;
 
 const styles = StyleSheet.create({
+  page: {
+    justifyContent: "center",
+    borderColor: "red",
+    borderw: 5,
+  },
+  buttonText: {
+    height: 30,
+    fontSize: 20,
+  },
+  searchBar: {},
+  buttonView: {
+    marginTop: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "grey",
+    borderWidth: 1,
+    width: 130,
+    borderRadius: 10,
+  },
   searchVenue: {
     flex: 0,
     // flexDirection: "row",
