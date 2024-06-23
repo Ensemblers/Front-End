@@ -122,7 +122,6 @@ const editGigSlotStatus =
   (dispatch) =>
   async ({ gig_slot_id, gig_slot_status }) => {
     try {
-      console.log(gig_slot_id, gig_slot_status);
       const response = await ensemblersApi.patch(
         `/gig_slots/slot_status${gig_slot_id}`,
         {

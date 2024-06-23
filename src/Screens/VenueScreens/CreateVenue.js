@@ -1,109 +1,63 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Button,
-  TouchableOpacity,
-} from "react-native";
-import React, { useContext, useState } from "react";
-import { Context as VenueContext } from "../../context/VenueContext";
-import { Context as AuthContext } from "../../context/AuthContext";
+import { StyleSheet, View } from "react-native";
+import React, { useState } from "react";
 import { StackActions } from "@react-navigation/native";
-import CreatePage from "../../components/CreatePage";
-import Spacer from "../../components/Spacer";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import Title from "../../components/Title";
-import { AntDesign } from "@expo/vector-icons";
+import { DefaultBackground, HeaderButtons } from "../../components/PageFormats";
+import { BackIcon, GoogleLogo } from "../../components/IconsAndLogos";
+import { DesignButton } from "../../components/Buttons";
 
 const CreateVenue = ({ navigation }) => {
-  const { state: venue, addVenue } = useContext(VenueContext);
-  const { state: user } = useContext(AuthContext);
-
-  const [venue_name, setvenue_name] = useState("");
-  const [venue_location, setvenue_location] = useState("");
   const [venueSearch, setVenueSearch] = useState("");
-
-  const { user_id } = user;
   const popAction = StackActions.pop(1);
 
   const {} = venueSearch;
 
   return (
-    <View>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("My Stuff Page")}
-        style={styles.backIcon}
-      >
-        <AntDesign name="back" size={24} color="black" />
-        <Text>My Stuff</Text>
-      </TouchableOpacity>
-      <Spacer />
-      <Title titleText="Find Your Venue" />
-      <Spacer />
-
-      {/* <CreatePage
-        backOnPress={() => {
-          navigation.dispatch(popAction);
-        }}
-        navigateToText="Back"
-        TitleText="Create Venue"
-        FirstCategory="Name of Venue"
-        SecondCategory="Location"
-        value={venue_name}
-        setValue={setvenue_name}
-        value2={venue_location}
-        setValue2={setvenue_location}
-        CreateButton="Create Venue"
-        createOnPress={async () => {
-          await addVenue({
-            user_id,
-            venue_name,
-            venue_location,
-          });
-          navigation.navigate("Venue Page");
-        }}
-      /> */}
-      <Spacer />
-      <View style={styles.page}>
-        <View style={styles.searchBar}>
-          <GooglePlacesAutocomplete
-            placeholder="Search"
-            styles={{
-              container: {
-                flex: 0,
-                margin: 20,
-                borderColor: "grey",
-                // borderWidth: 1,
-                borderRadius: 15,
-              },
-            }}
-            onPress={(data, details = null) => {
-              const results = (data, details);
-              setVenueSearch(results);
-            }}
-            fetchDetails={true}
-            query={{
-              key: "AIzaSyCuFsKofy_0ovUjWiO7yk6TKk6y7BnNHCc",
-              language: "en",
-              // components: "country:nl",
-            }}
-            // renderRightButton
-            onFail={(error) => console.log(error)}
-            // requestUrl={{
-            //   url: "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api",
-            //   useOnPlatform: "web",
-            // }}
-          />
-        </View>
-        <View style={styles.buttonView}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Venue Google Auth", { venueSearch });
-            }}
-          >
-            <Text style={styles.buttonText}>Search</Text>
-          </TouchableOpacity>
+    <View style={styles.container}>
+      <DefaultBackground />
+      <HeaderButtons
+        OnPressLeft={() => navigation.dispatch(popAction)}
+        IconLeft={<BackIcon />}
+      />
+      <View style={styles.card}>
+        <View style={styles.cardBody}>
+          <View style={styles.body}>
+            <GoogleLogo />
+            <View style={styles.searchBar}>
+              <GooglePlacesAutocomplete
+                placeholder="Find Your Venue"
+                onPress={(data, details = null) => {
+                  const results = (data, details);
+                  setVenueSearch(results);
+                }}
+                fetchDetails={true}
+                query={{
+                  key: "AIzaSyCuFsKofy_0ovUjWiO7yk6TKk6y7BnNHCc", // ${{GOOGLE_PLACES_API_KEY}}
+                  language: "en",
+                  // components: "country:nl",
+                }}
+                onFail={(error) => console.log(error)}
+                styles={{
+                  container: {
+                    flex: 0,
+                  },
+                  textInput: {
+                    backgroundColor: "white",
+                    fontSize: 20,
+                    flex: 1,
+                  },
+                }}
+              />
+            </View>
+            <DesignButton
+              ButtonText="Search"
+              OnPress={() => {
+                venueSearch
+                  ? navigation.navigate("Venue Google Auth", { venueSearch })
+                  : null;
+              }}
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -113,43 +67,29 @@ const CreateVenue = ({ navigation }) => {
 export default CreateVenue;
 
 const styles = StyleSheet.create({
-  page: {
-    justifyContent: "center",
-    borderColor: "red",
-    borderw: 5,
-  },
-  buttonText: {
-    height: 30,
-    fontSize: 20,
-  },
-  searchBar: {},
-  buttonView: {
-    marginTop: 15,
+  container: {
+    height: "100%",
     alignItems: "center",
+  },
+  card: {
+    paddingTop: 15,
+    paddingHorizontal: 10,
+    flex: 1,
+    width: "90%",
+  },
+  cardBody: {
+    flex: 1,
     justifyContent: "center",
+    paddingBottom: "30%",
+  },
+  searchBar: {
+    height: 70,
+    fontSize: 16,
+    borderWidth: 0.5,
     borderColor: "grey",
-    borderWidth: 1,
-    width: 130,
-    borderRadius: 10,
-  },
-  searchVenue: {
-    flex: 0,
-    // flexDirection: "row",
-    // justifyContent: "space-around",
-    // alignItems: "center",
-  },
-  input: {
-    fontSize: 18,
-    borderWidth: 1,
-    borderColor: "black",
-    marginBottom: 15,
-    padding: 5,
-    marginRight: 50,
-    width: 200,
-  },
-  label: {
-    fontSize: 20,
-    marginBottom: 5,
-    marginLeft: 50,
+    borderRadius: 15,
+    marginVertical: 30,
+    // marginHorizontal: 10,
+    justifyContent: "center",
   },
 });

@@ -59,7 +59,6 @@ const ArtistGigManager = ({ navigation }) => {
       i.gig_request_status === ("declined" || "concert")
   );
 
-  console.log(gigRequest);
   const unavailableGigSlotIds = [
     ...new Set(unavailableGigRequests.map((i) => i.gig_slot_id)),
   ];
