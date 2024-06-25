@@ -1,11 +1,8 @@
 import { StyleSheet, View, ScrollView } from "react-native";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { StackActions } from "@react-navigation/native";
 import { Context as VenueContext } from "../../context/VenueContext";
 import { Context as AuthContext } from "../../context/AuthContext";
-import AddressParser from "parse-google-address";
-import countryToCurrency from "country-to-currency";
-import lookup from "country-code-lookup";
 
 //COMPONENTS
 import { VenuePicture } from "../../components/Images";
@@ -38,15 +35,6 @@ const VenuePageEditScreen = ({ navigation, route }) => {
   //       `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=${venue_google_photo}&key=AIzaSyCuFsKofy_0ovUjWiO7yk6TKk6y7BnNHCc`
   //     );
   //     const data = await res.blob();
-  //     AddressParser.Parse_Reverse_GeoCode_Address(
-  //       venueSearch.address_components,
-  //       function (err, ParsedData) {
-  //         if (err) console.error(err);
-  //         const countryShortname = countryCode(`${ParsedData.Country}`);
-  //         setCurrency(countryToCurrency[`${countryShortname}`]);
-  //         setLocation(`${ParsedData.Locality}, ${ParsedData.Country}`);
-  //       }
-  //     );
   //     setImage(URL.createObjectURL(data));
   //     setPhoto(data);
   //   }

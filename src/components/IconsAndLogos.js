@@ -3,12 +3,16 @@ import Spotify from "../../Images/logos/Spotify.png";
 import Facebook from "../../Images/logos/Facebook.png";
 import Instagram from "../../Images/logos/Instagram.png";
 import Youtube from "../../Images/logos/Youtube.png";
+import tiktok from "../../Images/logos/tiktok.png";
 import GoogleMaps from "../../Images/logos/GoogleMaps.png";
 import GoogleMapsIcon from "../../Images/logos/GoogleMapsIconLogo.png";
 import Google from "../../Images/logos/Google.png";
 import WebsiteIcon from "../../Images/logos/WebsiteIcon.png";
 import WebsiteLogo from "../../Images/logos/website.png";
 import PhonePic from "../../Images/logos/telephone.png";
+import Email from "../../Images/logos/Email.png";
+import SoloMusician from "../../Images/logos/solo_musician.png";
+import GroupMusician from "../../Images/logos/group_musician.png";
 
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome6 } from "@expo/vector-icons";
@@ -92,6 +96,26 @@ export const Website = () => {
   );
 };
 
+export const Solo = () => {
+  return (
+    <View>
+      <Image
+        style={styles.logoSolo}
+        resizeMode="contain"
+        source={SoloMusician}
+      />
+    </View>
+  );
+};
+
+export const Group = () => {
+  return (
+    <View>
+      <Image style={styles.logoGroup} source={GroupMusician} />
+    </View>
+  );
+};
+
 export const PhoneLink = () => {
   return (
     <View>
@@ -104,6 +128,18 @@ export const WebsiteLink = () => {
   return (
     <View>
       <Image style={styles.logo} source={WebsiteLogo} />
+    </View>
+  );
+};
+
+export const EmailLink = () => {
+  return (
+    <View>
+      <Image
+        style={styles.logoEmail}
+        // resizeMode="stretch"
+        source={Email}
+      />
     </View>
   );
 };
@@ -144,6 +180,14 @@ export const YoutubeLink = () => {
   return (
     <View>
       <Image style={styles.youtube} source={Youtube} />
+    </View>
+  );
+};
+
+export const TikTokLink = () => {
+  return (
+    <View>
+      <Image style={styles.youtube} source={tiktok} />
     </View>
   );
 };
@@ -257,16 +301,27 @@ const styles = StyleSheet.create({
   googleLogo: {
     height: 130,
     width: 150,
-
     alignSelf: "center",
     marginBottom: 45,
   },
   logoGroup: {
-    height: 40,
-    width: 40,
+    height: 80,
+    width: 80,
+    margin: 15,
+  },
+  logoSolo: {
+    height: 60,
+    width: 60,
     margin: 15,
   },
   logo: {
+    height: 40,
+    width: 40,
+    margin: 15,
+    borderColor: "blue",
+    borderWidth: "1",
+  },
+  logoEmail: {
     height: 40,
     width: 40,
     margin: 15,

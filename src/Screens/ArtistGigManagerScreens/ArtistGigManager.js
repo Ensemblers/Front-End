@@ -136,6 +136,7 @@ const ArtistGigManager = ({ navigation }) => {
   const gigSlotLocation = selected;
 
   const popAction = StackActions.pop(1);
+
   return (
     <View>
       <BackButton
