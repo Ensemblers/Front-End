@@ -114,6 +114,7 @@ export const instrumentsList = [
   "Theremin",
   "Sitar",
   "Didgeridoo",
+  "DJ",
 ].sort();
 
 // export const instrumentsList = instruments.sort();

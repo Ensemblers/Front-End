@@ -33,7 +33,7 @@ import { InputInfo, InputLinks } from "../../components/Input";
 import { InputTemplate } from "../../components/InputTemplate";
 
 const CreateArtist = ({ navigation }) => {
-  const { createArtist } = useContext(ArtistContext);
+  const { addArtist } = useContext(ArtistContext);
   const { state: user } = useContext(AuthContext);
 
   const popAction = StackActions.pop(1);
@@ -50,8 +50,8 @@ const CreateArtist = ({ navigation }) => {
   //ARTIST ONBOARDING FIELDS
   const [artist_name, setArtistName] = useState("");
   const [artist_genre, setArtistGenre] = useState("");
-  const [artist_number_of_members, setArtistGroupSize] = useState("");
-  const [artist_solo_instrument, setArtistSoloInstrument] = useState("");
+  const [artistGroupSize, setArtistGroupSize] = useState("");
+  const [artistInstrument, setArtistSoloInstrument] = useState("");
   const [artist_email, setArtistEmail] = useState("");
 
   //DROPDOWN JAVASCRIPT FOR GROUP SIZE / SOLO INSTRUMENT / MUSICAL GENRE
@@ -89,7 +89,17 @@ const CreateArtist = ({ navigation }) => {
     fetchdata();
   }, []);
 
-  console.log(artist_genre, artist_number_of_members, artist_solo_instrument);
+  const artist_number_of_members = group === 3 ? artistGroupSize : 1;
+
+  const artist_solo_instrument = group === 2 ? artistInstrument : "";
+
+  // console.log(
+  //   artist_name,
+  //   artist_genre,
+  //   artist_number_of_members,
+  //   artist_solo_instrument,
+  //   artist_email
+  // );
 
   return (
     <View style={styles.container}>
@@ -109,7 +119,7 @@ const CreateArtist = ({ navigation }) => {
                 InputHere={
                   <InputTemplate
                     Value={artist_name}
-                    OnChangeText={(artist_name) => setName(artist_name)}
+                    OnChangeText={(artist_name) => setArtistName(artist_name)}
                   />
                 }
               />
@@ -124,7 +134,7 @@ const CreateArtist = ({ navigation }) => {
                     <DropdownComponent
                       Data={instrument}
                       Placeholder="Instrument"
-                      Value={artist_solo_instrument.label}
+                      Value={artistInstrument.label}
                       OnChange={(i) => {
                         setArtistSoloInstrument(i.label);
                       }}
@@ -143,7 +153,7 @@ const CreateArtist = ({ navigation }) => {
                     <DropdownComponent
                       Data={groupSize}
                       Placeholder="# Members"
-                      Value={artist_number_of_members.label}
+                      Value={artistGroupSize.label}
                       OnChange={(i) => {
                         setArtistGroupSize(i.label);
                       }}
@@ -171,7 +181,9 @@ const CreateArtist = ({ navigation }) => {
                 InputHere={
                   <InputTemplate
                     Value={artist_email}
-                    OnChangeText={(artist_email) => setEmail(artist_email)}
+                    OnChangeText={(artist_email) =>
+                      setArtistEmail(artist_email)
+                    }
                   />
                 }
               />
@@ -179,7 +191,15 @@ const CreateArtist = ({ navigation }) => {
                 <DesignButton
                   ButtonText="Create"
                   OnPress={() => {
-                    createArtist({
+                    // console.log(
+                    //   user_id,
+                    //   artist_name,
+                    //   artist_genre,
+                    //   artist_number_of_members,
+                    //   artist_solo_instrument,
+                    //   artist_email
+                    // );
+                    addArtist({
                       user_id,
                       artist_name,
                       artist_genre,
