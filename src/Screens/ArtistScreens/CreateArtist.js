@@ -32,11 +32,13 @@ import { TextHeader } from "../../components/Text";
 import { InputInfo, InputLinks } from "../../components/Input";
 import { InputTemplate } from "../../components/InputTemplate";
 
-const CreateArtist = ({ navigation }) => {
+const CreateArtist = ({ navigation, route }) => {
   const { addArtist } = useContext(ArtistContext);
-  const { state: user } = useContext(AuthContext);
+  const { state: user, editUser } = useContext(AuthContext);
 
   const popAction = StackActions.pop(1);
+  const userNew = user.user_new;
+  const id = user.user_id;
   const { user_id } = user;
 
   //USESTATE FOR DROPDOWN LISTS
@@ -60,7 +62,7 @@ const CreateArtist = ({ navigation }) => {
   let genreDropdown = [];
 
   useEffect(() => {
-    const fetchdata = () => {
+    const fetchdata = async () => {
       artistGroupSizeList.forEach((i) => {
         artistGroupSizeDropdown.push({
           label: i,
@@ -93,14 +95,6 @@ const CreateArtist = ({ navigation }) => {
 
   const artist_solo_instrument = group === 2 ? artistInstrument : "";
 
-  // console.log(
-  //   artist_name,
-  //   artist_genre,
-  //   artist_number_of_members,
-  //   artist_solo_instrument,
-  //   artist_email
-  // );
-
   return (
     <View style={styles.container}>
       <DefaultBackground />
@@ -110,7 +104,7 @@ const CreateArtist = ({ navigation }) => {
         IconRight={""}
       />
       <View style={styles.card}>
-        <TextHeader WriteText={"Create Artist:"} />
+        <TextHeader WriteText={"Create Your Artist Page:"} />
         <ScrollView style={styles.ScrollView}>
           <View style={styles.artistGroup}>
             <View style={styles.cardBody}>
@@ -191,14 +185,20 @@ const CreateArtist = ({ navigation }) => {
                 <DesignButton
                   ButtonText="Create"
                   OnPress={() => {
-                    // console.log(
-                    //   user_id,
-                    //   artist_name,
-                    //   artist_genre,
-                    //   artist_number_of_members,
-                    //   artist_solo_instrument,
-                    //   artist_email
-                    // );
+                    const artist_location = "";
+                    const artist_description = "";
+                    const artist_tech_rider = "";
+                    const artist_instagram = "";
+                    const artist_facebook = "";
+                    const artist_tiktok = "";
+                    const artist_spotify = "";
+                    const artist_youtube = "";
+                    const artist_website = "";
+                    const user_new = false;
+
+                    {
+                      userNew === true ? editUser({ id, user_new }) : "";
+                    }
                     addArtist({
                       user_id,
                       artist_name,
@@ -206,6 +206,15 @@ const CreateArtist = ({ navigation }) => {
                       artist_number_of_members,
                       artist_solo_instrument,
                       artist_email,
+                      artist_location,
+                      artist_description,
+                      artist_tech_rider,
+                      artist_instagram,
+                      artist_facebook,
+                      artist_tiktok,
+                      artist_spotify,
+                      artist_youtube,
+                      artist_website,
                     });
                     navigation.navigate("Artist Page");
                   }}
@@ -232,34 +241,26 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   cardBody: {
+    top: 20,
     width: "85%",
     alignSelf: "center",
   },
-
-  artistGroup: {
-    // borderColor: "red",
-    // borderWidth: "1",
-  },
+  artistGroup: {},
   artistSize: {
     flexDirection: "row",
     justifyContent: "space-around",
   },
   artistIcon: {
-    height: 150,
+    height: 130,
     justifyContent: "center",
     alignItems: "center",
     width: 100,
     marginVertical: 25,
-    top: 20,
-    // borderColor: "blue",
-    // borderWidth: "1",
+    top: 10,
   },
   artistInfo: {
-    // borderColor: "blue",
-    // borderWidth: "1",
     height: 260,
     justifyContent: "center",
-    // marginVertical: 30,
     marginHorizontal: 30,
   },
   links: {
@@ -267,11 +268,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonView: {
-    marginVertical: 20,
+    marginVertical: 30,
     flexDirection: "row",
     alignItems: "space-around",
     justifyContent: "center",
-    // borderColor: "green",
-    // borderWidth: "1",
   },
 });

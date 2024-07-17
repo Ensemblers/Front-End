@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Context as AuthContext } from "../context/AuthContext";
 
 //SCREENS
 import MyStuff from "../Screens/BottomTab/MyStuff";
@@ -11,6 +12,7 @@ import VenuePage from "../Screens/VenueScreens/VenuePage";
 import CreateVenue from "../Screens/VenueScreens/CreateVenue";
 import VenuePageEditScreen from "../Screens/VenueScreens/VenuePageEditScreen";
 import VenueGoogleAuth from "../Screens/VenueScreens/VenueGoogleAuth";
+import OnboardingScreen from "../Screens/AuthStack/OnboardingScreen";
 
 //NAVIGATORS
 import ArtistGigManagerNavigator from "./ArtistGigManagerNavigator";
@@ -18,14 +20,21 @@ import VenueGigManagerNavigator from "./VenueGigManagerNavigator";
 
 export default MyStuffNavigator = () => {
   const Stack = createStackNavigator();
+  const { state: user, getUser } = useContext(AuthContext);
+
+  const { user_new } = user;
 
   return (
     <Stack.Navigator
-      initialRouteName={MyStuff}
+      initialRouteName={
+        user_new === true ? "Onboarding Screen" : "My Stuff Page"
+      }
       screenOptions={{
         headerShown: false,
       }}
     >
+      <Stack.Screen name="Onboarding Screen" component={OnboardingScreen} />
+
       <Stack.Screen name="My Stuff Page" component={MyStuff} />
       <Stack.Screen name="Create Artist" component={CreateArtist} />
       <Stack.Screen name="Create Venue" component={CreateVenue} />

@@ -3,9 +3,6 @@ import React from "react";
 import { TextBody, InputText } from "../components/Text";
 
 export const InputTemplate = ({
-  AutoCapitalize,
-  AutoComplete,
-  AutoCorrect,
   KeyboardType,
   MaxLength,
   MultiLine,
@@ -22,11 +19,11 @@ export const InputTemplate = ({
   return (
     <>
       <TextInput
-        autoCapitalize={AutoCapitalize}
+        autoCapitalize="none"
         //characters, words, sentences, none
-        autoComplete={AutoComplete}
+        autoComplete="off"
         //country, email, address-line1, name, current-password, new-password, username, url(iOS)
-        autoCorrect={AutoCorrect}
+        autoCorrect="off"
         keyboardType={KeyboardType}
         //what type of keyboard to use
         //default, number-pad, decimal-pad, numeric, email-address, phone-pad, url
@@ -46,6 +43,7 @@ export const InputTemplate = ({
         secureTextEntry={SecureTextEntry}
         value={Value}
         style={InputStyle}
+        textContentType={"oneTimeCode"}
         //secureTextEntry - For passwords
         //textAlign
         //passwordRules (iOS)

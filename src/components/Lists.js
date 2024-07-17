@@ -115,6 +115,8 @@ export const instrumentsList = [
   "Sitar",
   "Didgeridoo",
   "DJ",
+  "Vocals / Singing",
+  "Rapper / MC",
 ].sort();
 
 // export const instrumentsList = instruments.sort();

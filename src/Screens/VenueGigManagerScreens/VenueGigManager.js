@@ -6,8 +6,10 @@ import Title from "../../components/Title";
 import { Context as VenueContext } from "../../context/VenueContext";
 import { Context as GigSlotContext } from "../../context/GigSlotContext";
 import dateFormat from "dateformat";
-import { AntDesign } from "@expo/vector-icons";
 import { Context as ConcertContext } from "../../context/ConcertContext";
+import { DefaultBackground, HeaderButtons } from "../../components/PageFormats";
+import { BackIcon, EditIcon } from "../../components/IconsAndLogos";
+import { TextHeader, TextBody } from "../../components/Text";
 
 const VenueGigManager = ({ navigation }) => {
   const { state: venue, getVenue } = useContext(VenueContext);
@@ -60,127 +62,111 @@ const VenueGigManager = ({ navigation }) => {
   });
 
   return (
-    <View style={styles.calendarView}>
-      <TouchableOpacity
-        onPress={() => {
+    <View style={styles.container}>
+      <DefaultBackground />
+      <HeaderButtons
+        OnPressLeft={() => {
           getVenue(venue_id);
           navigation.navigate("Venue Page");
         }}
-        style={styles.backIcon}
-      >
-        <AntDesign name="back" size={24} color="black" />
-        <Text>My Stuff</Text>
-      </TouchableOpacity>
-      <View style={styles.header}>
-        <Title titleText={`${venue_name}\nGig Manager`} />
-      </View>
-      <Text style={styles.createSlotMessage}>Create a Gig Slot:</Text>
-      <Calendar
-        style={styles.calendar}
-        onDayPress={(day) => {
-          const gigSlotDate = new Date(day.dateString);
-          const formattedDate = dateFormat(gigSlotDate, "isoDate");
-
-          const thisGigSlot = gigSlot.filter(
-            (i) =>
-              i.gig_slot_date === formattedDate && i.venue_id === `${venue_id}`
-          );
-
-          const goToGigSlot = async () => {
-            const { gig_slot_id } = thisGigSlot[0];
-            await getGigSlot(gig_slot_id);
-            navigation.navigate("Gig Slot");
-          };
-
-          const goToConcert = async () => {
-            const { gig_slot_id } = thisGigSlot[0];
-            const thisConcert = concert.filter(
-              (i) => i.gig_slot_id === `${gig_slot_id}`
-            );
-            const { concert_id } = thisConcert[0];
-            await getConcert(concert_id);
-            navigation.navigate("Concert Page");
-          };
-
-          const goToCreateSlot = async () => {
-            await getVenue(venue_id);
-            navigation.navigate("Create Gig Slot", {
-              formattedDate,
-            });
-          };
-
-          const gigSlotStatusSwitch = () => {
-            const { gig_slot_status } = thisGigSlot[0];
-            switch (gig_slot_status) {
-              case "pending":
-                goToGigSlot();
-                break;
-              case "concert":
-                goToConcert();
-                break;
-            }
-          };
-          {
-            thisGigSlot[0] === undefined
-              ? goToCreateSlot()
-              : gigSlotStatusSwitch();
-          }
-        }}
-        markedDates={dates}
+        // OnPressRight={() => {
+        //   getVenue({ venue_id });
+        //   navigation.navigate("Edit Venue Page");
+        // }}
+        IconLeft={<BackIcon />}
+        // IconRight={<EditIcon />}
       />
-      <View style={styles.gigButtons}>
-        <TouchableOpacity
-          style={styles.buttons}
-          onPress={() => navigation.navigate("Venue Gig Manager Settings")}
-        >
-          <Text style={styles.text}>Default Schedule</Text>
-        </TouchableOpacity>
+      <View style={styles.header}>
+        <TextHeader WriteText={`Gig Manager`} />
+        <TextBody WriteText={`${venue_name}`} />
+      </View>
+      <View style={styles.calendarView}>
+        <TextBody WriteText={`Create a Gig Slot:`} />
+        <Calendar
+          style={styles.calendar}
+          onDayPress={(day) => {
+            const gigSlotDate = new Date(day.dateString);
+            const formattedDate = dateFormat(gigSlotDate, "isoDate");
+
+            const thisGigSlot = gigSlot.filter(
+              (i) =>
+                i.gig_slot_date === formattedDate &&
+                i.venue_id === `${venue_id}`
+            );
+
+            const goToGigSlot = async () => {
+              const { gig_slot_id } = thisGigSlot[0];
+              await getGigSlot(gig_slot_id);
+              navigation.navigate("Gig Slot");
+            };
+
+            const goToConcert = async () => {
+              const { gig_slot_id } = thisGigSlot[0];
+              const thisConcert = concert.filter(
+                (i) => i.gig_slot_id === `${gig_slot_id}`
+              );
+              const { concert_id } = thisConcert[0];
+              await getConcert(concert_id);
+              navigation.navigate("Concert Page");
+            };
+
+            const goToCreateSlot = async () => {
+              await getVenue(venue_id);
+              navigation.navigate("Create Gig Slot", {
+                formattedDate,
+              });
+            };
+
+            const gigSlotStatusSwitch = () => {
+              const { gig_slot_status } = thisGigSlot[0];
+              switch (gig_slot_status) {
+                case "pending":
+                  goToGigSlot();
+                  break;
+                case "concert":
+                  goToConcert();
+                  break;
+              }
+            };
+            {
+              thisGigSlot[0] === undefined
+                ? goToCreateSlot()
+                : gigSlotStatusSwitch();
+            }
+          }}
+          markedDates={dates}
+        />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  createSlotMessage: {
-    marginHorizontal: 25,
-    fontWeight: "bold",
-    fontSize: 15,
-  },
-  headerText: {
-    fontSize: 30,
-  },
-  header: {
-    marginVertical: 30,
-    alignItems: "center",
-  },
-  calendarView: {
+  container: {
     flex: 1,
   },
+  header: {
+    marginVertical: 40,
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    flex: 1,
+  },
+  calendarView: {
+    flex: 4,
+  },
   calendar: {
-    height: 350,
+    justifyContent: "center",
+    height: 380,
     borderRadius: 30,
     marginTop: 10,
     paddingTop: 10,
     marginHorizontal: 20,
-  },
-  gigButtons: {
-    marginTop: 50,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginHorizontal: 30,
-    height: 400,
-  },
-  buttons: {
-    height: 40,
-    width: 165,
-    borderRadius: 30,
-    backgroundColor: "black",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    color: "white",
-    fontWeight: "bold",
+    borderColor: "#ebeff5",
+    borderWidth: 0.5,
+    shadowColor: "#ebeff5",
+    shadowOffset: { width: 4, height: 4 },
+    shadowOpacity: 50,
+    shadowRadius: 4,
   },
 });
 

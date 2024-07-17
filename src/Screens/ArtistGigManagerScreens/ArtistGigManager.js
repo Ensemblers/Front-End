@@ -146,7 +146,7 @@ const ArtistGigManager = ({ navigation }) => {
         navigateToText={"Back"}
       />
       <View style={styles.header}>
-        <Title titleText={`${artist_name}\nGig Manager`} />
+        <Title titleText={`Gig Manager\n${artist_name}`} />
       </View>
       <View style={styles.findLocation}>
         <Text style={styles.createSlotMessage}>Find a Gig:</Text>
@@ -239,14 +239,14 @@ const ArtistGigManager = ({ navigation }) => {
         }}
         markedDates={dates}
       />
-      <View style={styles.gigButtons}>
+      {/* <View style={styles.gigButtons}>
         <TouchableOpacity
           style={styles.buttons}
           // onPress={() => navigation.navigate("Venue Gig Manager Settings")}
         >
           <Text style={styles.text}>Default Schedule</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };

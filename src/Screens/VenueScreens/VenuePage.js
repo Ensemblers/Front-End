@@ -1,19 +1,20 @@
 import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
 import { Context as VenueContext } from "../../context/VenueContext";
+import { StackActions } from "@react-navigation/native";
 
 import { Context as AuthContext } from "../../context/AuthContext";
 
-import { VenuePicture, VenuePicturePlaceholder } from "../../components/Images";
+import { VenuePicture } from "../../components/Images";
 import { DefaultBackground, HeaderButtons } from "../../components/PageFormats";
 import {
   BackIcon,
   EditIcon,
   GoogleMapsLink,
-  WebsiteToubableOpacity,
-  InstagramToubableOpacity,
-  YoutubeToubableOpacity,
-  FacebookToubableOpacity,
+  WebsiteTouchableOpacity,
+  InstagramTouchableOpacity,
+  YoutubeTouchableOpacity,
+  FacebookTouchableOpacity,
   PhoneTouchableOpacity,
 } from "../../components/IconsAndLogos";
 import { DesignButton } from "../../components/Buttons";
@@ -23,11 +24,11 @@ const VenuePage = ({ navigation }) => {
   const { state: venue, getVenue } = useContext(VenueContext);
 
   const { state: user } = useContext(AuthContext);
-
   const { user_id } = user;
 
   // const [imagePlace, setImage] = useState("");
   const venue_user_id = venue[0].user_id;
+
   const {
     venue_id,
     venue_name,
@@ -49,10 +50,13 @@ const VenuePage = ({ navigation }) => {
   //   fetchData();
   // }, []);
 
+  const popAction = StackActions.pop(1);
+
   return (
     <View style={styles.container}>
       <DefaultBackground />
       <HeaderButtons
+        OnPressLeft={() => navigation.dispatch(popAction)}
         OnPressRight={() => {
           getVenue({ venue_id });
           navigation.navigate("Edit Venue Page");
@@ -62,7 +66,9 @@ const VenuePage = ({ navigation }) => {
       />
       <View style={styles.card}>
         <ScrollView>
-          <VenuePicturePlaceholder />
+          {/* <VenuePicture
+            Source={{ uri: URL.createObjectURL(venue_google_photo) }}
+          /> */}
           <TextHeader WriteText={`${venue_name}`} />
           <TouchableOpacity style={styles.googleLocation}>
             <GoogleMapsLink />
@@ -71,7 +77,7 @@ const VenuePage = ({ navigation }) => {
           <TextBody WriteText={`${venue_type}`} />
           {venue_user_id === user_id ? (
             <DesignButton
-              ButtonText="Gig Manager"
+              ButtonText="Book a Gig!"
               OnPress={() => {
                 getVenue(venue_id);
                 navigation.navigate("Venue Gig Manager");
@@ -84,11 +90,11 @@ const VenuePage = ({ navigation }) => {
               <TextBody WriteText={`${venue_description}`} />
             </View>
             <View style={styles.mediaLinksView}>
-              {venue_website !== "" ? <WebsiteToubableOpacity /> : ""}
-              {venue_instagram !== "" ? <InstagramToubableOpacity /> : ""}
-              {venue_youtube !== "" ? <YoutubeToubableOpacity /> : ""}
-              {venue_facebook !== "" ? <FacebookToubableOpacity /> : ""}
-              {venue_phone_number !== "" ? <PhoneTouchableOpacity /> : ""}
+              {/* {venue_website !== "" ? <WebsiteTouchableOpacity /> : ""}
+              {venue_instagram !== "" ? <InstagramTouchableOpacity /> : ""}
+              {venue_youtube !== "" ? <YoutubeTouchableOpacity /> : ""}
+              {venue_facebook !== "" ? <FacebookTouchableOpacity /> : ""}
+              {venue_phone_number !== "" ? <PhoneTouchableOpacity /> : ""} */}
             </View>
           </View>
         </ScrollView>

@@ -12,19 +12,23 @@ import MainTabNavigator from "./MainTabNavigator";
 
 export default App = () => {
   const Stack = createStackNavigator();
-  const { state, signout } = useContext(AuthContext);
+  const { state: user, signout } = useContext(AuthContext);
 
-  const token = Object.values(state)[0];
-  const email = String(state.email);
+  const { accessToken } = user;
+  const email = `${user.email}`;
   const emailArray = email.split("@");
   const username = emailArray[0];
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {token === null ? (
+        {!accessToken ? (
           // No token found, user isn't signed in
-          <Stack.Screen name="AuthStack" component={AuthNavigator} />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="AuthStack"
+            component={AuthNavigator}
+          />
         ) : (
           <Stack.Screen
             name="MainTabs"

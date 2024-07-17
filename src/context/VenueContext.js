@@ -34,42 +34,38 @@ const addVenue =
     venue_instagram,
     venue_facebook,
     venue_youtube,
-    venue_photo,
     venue_currency,
   }) => {
     try {
-      // console.log(user_id,
-      //   venue_name,
-      //   venue_location,
-      //   venue_business_hours,
-      //   venue_description,
-      //   venue_website,
-      //   venue_admin_users,
-      //   venue_type,
-      //   venue_phone_number,
-      //   venue_googleMapsURL,
-      //   venue_instagram,
-      //   venue_facebook,
-      //   venue_youtube,
-      //   venue_photo,)
-      const response = await ensemblersApi.post("/venues", {
+      console.log(
         user_id,
         venue_name,
         venue_location,
-        // venue_business_hours,
         venue_description,
         venue_website,
-        // venue_admin_users,
         venue_type,
         venue_phone_number,
         venue_google_maps_url,
         venue_instagram,
         venue_facebook,
         venue_youtube,
-        // venue_photo,
+        venue_currency
+      );
+      const response = await ensemblersApi.post("/venues", {
+        user_id,
+        venue_name,
+        venue_location,
+        venue_description,
+        venue_website,
+        venue_type,
+        venue_phone_number,
+        venue_google_maps_url,
+        venue_instagram,
+        venue_facebook,
+        venue_youtube,
         venue_currency,
       });
-
+      console.log(response.data);
       dispatch({ type: "add_venue", payload: response.data });
     } catch (err) {
       console.log(err);
@@ -137,7 +133,6 @@ const editVenue =
         // photo,
         // currency,
       });
-      console.log(JSON.stringify(response.data, undefined, 4));
       dispatch({ type: "edit_venue", payload: response.data });
     } catch (err) {
       console.log(err);

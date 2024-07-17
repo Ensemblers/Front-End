@@ -8,8 +8,6 @@ import { Provider as GigSlotProvider } from "../context/GigSlotContext";
 import VenueGigManager from "../Screens/VenueGigManagerScreens/VenueGigManager";
 import CreateGigSlot from "../Screens/VenueGigManagerScreens/CreateGigSlot";
 import GigSlot from "../Screens/VenueGigManagerScreens/GigSlot";
-import EditGigSlot from "../Screens/VenueGigManagerScreens/EditGigSlot";
-import VenueGigManagerSettings from "../Screens/VenueGigManagerScreens/VenueGigManagerSettings";
 import ConcertPage from "../Screens/ConcertScreens/ConcertPage";
 
 export default VenueGigManagerNavigator = () => {
@@ -28,11 +26,7 @@ export default VenueGigManagerNavigator = () => {
           />
           <Stack.Screen name="Create Gig Slot" component={CreateGigSlot} />
           <Stack.Screen name="Gig Slot" component={GigSlot} />
-          <Stack.Screen name="Edit Gig Slot" component={EditGigSlot} />
-          <Stack.Screen
-            name="Venue Gig Manager Settings"
-            component={VenueGigManagerSettings}
-          />
+
           <Stack.Screen name="Concert Page" component={ConcertPage} />
         </Stack.Navigator>
       </GigRequestProvider>

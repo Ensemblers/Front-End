@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import React from "react";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 //PROVIDERS
@@ -15,7 +15,7 @@ import VenuesNavigator from "./VenuesNavigator";
 import MyStuffNavigator from "./MyStuffNavigator";
 
 export default MainTabNavigator = () => {
-  const Tab = createMaterialBottomTabNavigator();
+  const Tab = createBottomTabNavigator();
 
   return (
     <VenueProvider>
@@ -24,33 +24,52 @@ export default MainTabNavigator = () => {
           <Tab.Navigator
             initialRouteName="My Stuff"
             screenOptions={({ route }) => ({
-              tabBarIcon: ({ focused, color, size }) => {
+              tabBarHideOnKeyboard: true,
+              tabBarIcon: ({ color, size }) => {
                 let iconName;
-
-                if (route.name === "My Stuff") {
-                  iconName = focused
-                    ? "account-circle"
-                    : "account-circle-outline";
-                } else if (route.name === "Artists") {
-                  iconName = focused
-                    ? "account-music"
-                    : "account-music-outline";
-                } else if (route.name === "Venues") {
-                  iconName = focused ? "curtains" : "curtains";
-                } else if (route.name === "Concerts") {
-                  iconName = focused
-                    ? "ticket-confirmation"
-                    : "ticket-confirmation-outline";
+                switch (route.name) {
+                  case "My Stuff":
+                    iconName = "account-circle";
+                    return (
+                      <MaterialCommunityIcons
+                        name={iconName}
+                        size={30}
+                        color={color}
+                      />
+                    );
+                  case "Venues":
+                    iconName = "curtains";
+                    return (
+                      <MaterialCommunityIcons
+                        name={iconName}
+                        size={30}
+                        color={color}
+                      />
+                    );
+                  case "Artists":
+                    iconName = "account-music";
+                    return (
+                      <MaterialCommunityIcons
+                        name={iconName}
+                        size={30}
+                        color={color}
+                      />
+                    );
+                  case "Concerts":
+                    iconName = "ticket-confirmation";
+                    return (
+                      <MaterialCommunityIcons
+                        name={iconName}
+                        size={30}
+                        color={color}
+                      />
+                    );
                 }
-                return (
-                  <MaterialCommunityIcons
-                    name={iconName}
-                    size={30}
-                    color="black"
-                  />
-                );
               },
-              tabBarActiveTintColor: "grey",
+              headerShown: false,
+              tabBarShowLabel: false,
+              tabBarStyle: { backgroundColor: "black" },
+              tabBarActiveTintColor: "white",
               tabBarInactiveTintColor: "grey",
             })}
           >

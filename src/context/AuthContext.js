@@ -6,12 +6,14 @@ import axios from "axios";
 const authReducer = (state, action) => {
   switch (action.type) {
     case "signup":
-      return { token: action.payload };
+      return action.payload;
     case "signin":
       return action.payload;
     case "signout":
       return { token: action.payload };
     case "getUser":
+      return action.payload;
+    case "edit_user":
       return action.payload;
     default:
       return "nothing";
@@ -20,13 +22,14 @@ const authReducer = (state, action) => {
 
 const signup =
   (dispatch) =>
-  ({ email, password }) => {
+  async ({ email, password }) => {
     try {
-      const response = ensemblersApi.post("/auth/signup", {
+      const response = await ensemblersApi.post("/auth/signup", {
         email,
         password,
       });
-      dispatch({ type: "signup", payload: email });
+      console.log(response.data);
+      dispatch({ type: "signup", payload: response.data });
     } catch (err) {
       console.log(err);
     }
@@ -73,11 +76,23 @@ const signout = (dispatch) => async () => {
 
 const getUser =
   (dispatch) =>
-  async ({ user_id }) => {
+  async ({ email }) => {
     try {
-      const response = await ensemblersApi.get(`/users/${user_id}`);
-      // console.log(response.data);
+      const response = await ensemblersApi.get(`/users/${email}`);
       dispatch({ type: "get_user", payload: response.data });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+const editUser =
+  (dispatch) =>
+  async ({ user_new, id }) => {
+    try {
+      const response = await ensemblersApi.put(`/users/${id}`, {
+        user_new,
+      });
+      dispatch({ type: "edit_user", payload: response.data });
     } catch (err) {
       console.log(err);
     }
@@ -85,6 +100,6 @@ const getUser =
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signup, signout, signin, getUser },
+  { signup, signout, signin, getUser, editUser },
   { token: null }
 );

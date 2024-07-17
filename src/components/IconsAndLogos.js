@@ -13,6 +13,7 @@ import PhonePic from "../../Images/logos/telephone.png";
 import Email from "../../Images/logos/Email.png";
 import SoloMusician from "../../Images/logos/solo_musician.png";
 import GroupMusician from "../../Images/logos/group_musician.png";
+import EnsemblersIconLogo from "../../Images/EnsemblersLogo.jpg";
 
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome6 } from "@expo/vector-icons";
@@ -20,6 +21,14 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { InputText } from "./Text";
 import React from "react";
+
+export const EnsemblersLogo = () => {
+  return (
+    <>
+      <Image style={styles.ensemblersLogo} source={EnsemblersIconLogo} />
+    </>
+  );
+};
 
 export const UserProfilePicture = () => {
   return (
@@ -294,6 +303,7 @@ const styles = StyleSheet.create({
   //Settings Icon
 
   //ArtistLinks
+  ensemblersLogo: {},
   logoView: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -318,8 +328,8 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     margin: 15,
-    borderColor: "blue",
-    borderWidth: "1",
+    // borderColor: "blue",
+    // borderWidth: "1",
   },
   logoEmail: {
     height: 40,

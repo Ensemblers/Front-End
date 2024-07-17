@@ -26,16 +26,15 @@ import {
 import { InputTemplate } from "../../components/InputTemplate";
 
 const ArtistPageEditScreen = ({ navigation, route }) => {
-  const { state: artist, editArtist, deleteArtist } = useContext(ArtistContext);
+  const { state: artist, deleteArtist, editArtist } = useContext(ArtistContext);
   const { state: user } = useContext(AuthContext);
 
-  const popAction = StackActions.pop(1);
-  const { user_id } = user;
+  const artist_user_id = user.user_id;
 
   const {
+    user_id,
     artist_id,
     artist_name,
-    artist_type,
     artist_genre,
     artist_number_of_members,
     artist_solo_instrument,
@@ -68,6 +67,8 @@ const ArtistPageEditScreen = ({ navigation, route }) => {
   const [facebook, setFacebook] = useState(artist_facebook);
   const [tiktok, setTikTok] = useState(artist_tiktok);
   const [website, setWebsite] = useState(artist_website);
+
+  const popAction = StackActions.pop(1);
 
   return (
     <View style={styles.container}>
@@ -109,6 +110,15 @@ const ArtistPageEditScreen = ({ navigation, route }) => {
                 />
               }
             /> */}
+            {artist_user_id === user_id ? (
+              <DesignButton
+                ButtonText="Gig Manager"
+                OnPress={() => {
+                  getArtist(artist_id);
+                  navigation.navigate("Artist Gig Manager");
+                }}
+              />
+            ) : null}
             <InputInfo
               Content="Genre: [MAKE INTO A DROPDOWN]"
               InputHere={
@@ -203,7 +213,9 @@ const ArtistPageEditScreen = ({ navigation, route }) => {
               <DesignButton
                 ButtonText="Delete"
                 OnPress={() => {
-                  deleteArtist({ artist_id });
+                  {
+                    artist_id !== "" ? deleteArtist({ artist_id }) : "";
+                  }
                   navigation.navigate("My Stuff Page");
                 }}
               />
@@ -263,257 +275,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-// import { StyleSheet, View } from "react-native";
-// import React, { useContext, useState } from "react";
-// import { Context as ArtistContext } from "../../context/ArtistContext";
-// import { Context as AuthContext } from "../../context/AuthContext";
-// import { StackActions } from "@react-navigation/native";
-// import CreatePage from "../../components/CreatePage";
-
-// const CreateArtist = ({ navigation }) => {
-//   const { addArtist } = useContext(ArtistContext);
-//   const { state: user } = useContext(AuthContext);
-
-//   const [artist_name, setartist_name] = useState("");
-//   const [artist_genre, setartist_genre] = useState("");
-
-//   const { user_id } = user;
-
-//   const popAction = StackActions.pop(1);
-
-//   return (
-//     <View>
-//       <CreatePage
-//         backOnPress={() => {
-//           navigation.dispatch(popAction);
-//         }}
-//         navigateToText="Back"
-//         TitleText="Create Artist"
-//         FirstCategory="Artist Name"
-//         SecondCategory="Genre"
-//         value={artist_name}
-//         setValue={setartist_name}
-//         value2={artist_genre}
-//         setValue2={setartist_genre}
-//         CreateButton="Create Artist"
-//         createOnPress={async () => {
-//           await addArtist({
-//             user_id,
-//             artist_name,
-//             artist_genre,
-//           });
-//           navigation.navigate("Artist Page");
-//         }}
-//       />
-//     </View>
-//   );
-// };
-
-// export default CreateArtist;
-
-// const styles = StyleSheet.create({});
-
-// import {
-//   StyleSheet,
-//   Text,
-//   View,
-//   TextInput,
-//   Button,
-//   TouchableOpacity,
-// } from "react-native";
-// import { StackActions } from "@react-navigation/native";
-// import React, { useContext, useState } from "react";
-// import { Context as ArtistContext } from "../../context/ArtistContext";
-// import { Context as AuthContext } from "../../context/AuthContext";
-
-// import Spacer from "../../components/Spacer";
-// import { AntDesign } from "@expo/vector-icons";
-// import BackButton from "../../components/BackButton";
-// import Title from "../../components/Title";
-
-// const ArtistPageEditScreen = ({ navigation }) => {
-//   const { state: user } = useContext(AuthContext);
-//   const { state: artist, editArtist, deleteArtist } = useContext(ArtistContext);
-
-//   let {
-//     artist_id,
-//     artist_name,
-//     artist_genre,
-//     artist_email,
-//     artist_location,
-//     artist_description,
-//     artist_instagram,
-//     artist_spotify,
-//     artist_youtube,
-//     artist_website,
-//   } = artist[0];
-
-//   const [name, setName] = useState(artist_name);
-//   const [genre, setGenre] = useState(artist_genre);
-//   const [email, setEmail] = useState(artist_email);
-//   const [location, setLocation] = useState(artist_location);
-//   const [description, setDescription] = useState(artist_description);
-//   const [insta, setInsta] = useState(artist_instagram);
-//   const [spotify, setSpotify] = useState(artist_spotify);
-//   const [youtube, setYoutube] = useState(artist_youtube);
-//   const [website, setWebsite] = useState(artist_website);
-
-//   const popAction = StackActions.pop(1);
-
-//   return (
-//     <View>
-//       <TouchableOpacity
-//         onPress={() => {
-//           navigation.dispatch(popAction);
-//         }}
-//         style={styles.backIcon}
-//       >
-//         <AntDesign name="back" size={24} color="black" />
-//         <Text>Back</Text>
-//       </TouchableOpacity>
-//       <Title titleText="My Artists" />
-//       <Spacer />
-
-//       <View style={styles.inputRow}>
-//         <Text style={styles.label}>Artist Name:</Text>
-//         <TextInput
-//           style={styles.input}
-//           value={name}
-//           onChangeText={(name) => setName(name)}
-//         />
-//       </View>
-
-//       <View style={styles.inputRow}>
-//         <Text style={styles.label}>Artist Genre:</Text>
-//         <TextInput
-//           style={styles.input}
-//           value={genre}
-//           onChangeText={(genre) => setGenre(genre)}
-//         />
-//       </View>
-
-//       <View style={styles.inputRow}>
-//         <Text style={styles.label}>Artist Email:</Text>
-//         <TextInput
-//           style={styles.input}
-//           value={email}
-//           onChangeText={(email) => setEmail(email)}
-//         />
-//       </View>
-
-//       <View style={styles.inputRow}>
-//         <Text style={styles.label}>Artist Location:</Text>
-//         <TextInput
-//           style={styles.input}
-//           value={location}
-//           onChangeText={(location) => setLocation(location)}
-//         />
-//       </View>
-
-//       <View style={styles.inputRow}>
-//         <Text style={styles.label}>Artist Description:</Text>
-//         <TextInput
-//           style={styles.input}
-//           value={description}
-//           onChangeText={(description) => setDescription(description)}
-//         />
-//       </View>
-
-//       <View style={styles.inputRow}>
-//         <Text style={styles.label}>Artist Instagram:</Text>
-//         <TextInput
-//           style={styles.input}
-//           value={insta}
-//           onChangeText={(insta) => setInsta(insta)}
-//         />
-//       </View>
-
-//       <View style={styles.inputRow}>
-//         <Text style={styles.label}>Artist Spotify:</Text>
-//         <TextInput
-//           style={styles.input}
-//           value={spotify}
-//           onChangeText={(spotify) => setSpotify(spotify)}
-//         />
-//       </View>
-
-//       <View style={styles.inputRow}>
-//         <Text style={styles.label}>Artist Youtube:</Text>
-//         <TextInput
-//           style={styles.input}
-//           value={youtube}
-//           onChangeText={(youtube) => setYoutube(youtube)}
-//         />
-//       </View>
-
-//       <View style={styles.inputRow}>
-//         <Text style={styles.label}>Artist Website:</Text>
-//         <TextInput
-//           style={styles.input}
-//           value={website}
-//           onChangeText={(website) => setWebsite(website)}
-//         />
-//       </View>
-//       <Spacer />
-//       <Button
-//         title="Update Artist"
-//         onPress={() => {
-//           editArtist({
-//             artist_id,
-//             name,
-//             genre,
-//             email,
-//             location,
-//             description,
-//             insta,
-//             spotify,
-//             youtube,
-//             website,
-//           });
-//           navigation.navigate("Artist Page");
-//         }}
-//       />
-
-//       <Button
-//         title="Delete Artist"
-//         onPress={() => {
-//           deleteArtist({ artist_id });
-//           navigation.navigate("My Stuff Page");
-//         }}
-//       />
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   inputRow: {
-//     flexDirection: "row",
-//     marginLeft: 20,
-//   },
-//   input: {
-//     fontSize: 18,
-//     borderWidth: 1,
-//     borderColor: "black",
-//     marginLeft: 15,
-//     width: 200,
-//   },
-//   backIcon: {
-//     alignSelf: "flex-start",
-//     color: "grey",
-//     padding: 10,
-//   },
-//   label: {
-//     fontSize: 20,
-//     marginBottom: 5,
-//     marginLeft: 5,
-//   },
-//   headerTitle: {
-//     fontSize: 30,
-//     letterSpacing: 5,
-//     fontWeight: "bold",
-//     textAlign: "center",
-//   },
-// });
-
-// export default ArtistPageEditScreen;

@@ -1,4 +1,10 @@
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Text,
+  FlatList,
+} from "react-native";
 import React, { useState, useContext, useCallback } from "react";
 import Title from "../../components/Title";
 import { Context as GigSlotContext } from "../../context/GigSlotContext";
@@ -10,6 +16,19 @@ import { Context as GigRequestContext } from "../../context/GigRequestContext";
 import { StackActions, useFocusEffect } from "@react-navigation/native";
 import { ListItem } from "@rneui/themed";
 import { Context as ConcertContext } from "../../context/ConcertContext";
+import { DefaultBackground, HeaderButtons } from "../../components/PageFormats";
+import {
+  BackIcon,
+  EditIcon,
+  GoogleMapsLink,
+  WebsiteTouchableOpacity,
+  InstagramTouchableOpacity,
+  YoutubeTouchableOpacity,
+  FacebookTouchableOpacity,
+  PhoneTouchableOpacity,
+} from "../../components/IconsAndLogos";
+import { DesignButton } from "../../components/Buttons";
+import { TextHeader, TextBody, TextSub } from "../../components/Text";
 
 const GigSlot = ({ navigation }) => {
   const { state: venue } = useContext(VenueContext);
@@ -68,128 +87,111 @@ const GigSlot = ({ navigation }) => {
   );
 
   return (
-    <View>
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => navigation.dispatch(popAction)}
-          style={styles.backIcon}
-        >
-          <AntDesign name="back" size={24} color="black" />
-          <Text>Gig Manager</Text>
-        </TouchableOpacity>
-        <View style={styles.gigSlotView}>
-          <View style={styles.editGigSlot}>
-            <TouchableOpacity
-              onPress={() => {
-                getGigSlot(gig_slot_id);
-                navigation.navigate("Edit Gig Slot");
-              }}
-              style={styles.editIcon}
-            >
-              <AntDesign name="edit" size={24} color="grey" />
-            </TouchableOpacity>
-          </View>
+    <View style={styles.container}>
+      <DefaultBackground />
+      <HeaderButtons
+        OnPressLeft={() => navigation.dispatch(popAction)}
+        OnPressRight={() => {
+          getVenue({ venue_id });
+          navigation.navigate("Edit Venue Page");
+        }}
+        IconLeft={<BackIcon />}
+        IconRight={<EditIcon />}
+      />
+      <View style={styles.card}>
+        <TextHeader WriteText={gig_slot_title} />
+        <TextBody WriteText={venue_location} />
+        <TextBody WriteText={displayDate} />
+        <TextBody
+          WriteText={`From ${gig_slot_start_time} until ${gig_slot_end_time}`}
+        />
+        <TextBody WriteText={`Description: ${gig_slot_description}`} />
+
+        <View style={styles.flatlist}>
+          <FlatList
+            data={gigSlotRequests}
+            renderItem={({ item }) => (
+              <View style={styles.listItem}>
+                <View style={styles.artistInfo}>
+                  <TextBody WriteText={item.artist_name} />
+                  <TextSub WriteText={item.artist_genre} />
+                </View>
+                <View style={styles.gigInfo}>
+                  <TextSub WriteText={item.artist_email} />
+                  <TextSub WriteText={`Cost: ${item.gig_request_cost}`} />
+                </View>
+                <View style={styles.buttons}>
+                  <DesignButton
+                    ButtonText="Accept"
+                    onPress={async () => {
+                      const {
+                        artist_id,
+                        artist_number_of_members,
+                        artist_name,
+                        artist_solo_instrument,
+                        artist_tech_rider,
+                        artist_genre,
+                        artist_email,
+                        artist_description,
+                        artist_followers,
+                        gig_request_id,
+                        gig_request_cost,
+                      } = l;
+                      const gig_request_status = "concert";
+                      const gig_slot_status = "concert";
+                      await editGigRequest({
+                        gig_request_id,
+                        gig_request_status,
+                      });
+                      // SET STATUS OF ALL OTHER GIG REQUESTS TO "DECLINED"
+                      // gigSlotRequests.forEach ((i) => { i.gig_request_id != gig_request_id ? editGigRequest(i.gig_request_id, )})
+                      await editGigSlotStatus({ gig_slot_id, gig_slot_status });
+                      await addConcert({
+                        venue_id,
+                        venue_name,
+                        artist_id,
+                        artist_number_of_members,
+                        artist_name,
+                        artist_solo_instrument,
+                        artist_tech_rider,
+                        artist_genre,
+                        artist_email,
+                        artist_description,
+                        artist_followers,
+                        gig_request_id,
+                        gig_request_cost,
+                        gig_slot_id,
+                        gig_slot_title,
+                        gig_slot_location,
+                        gig_slot_date,
+                        gig_slot_start_time,
+                        gig_slot_end_time,
+                        gig_slot_description,
+                      });
+                      navigation.navigate("Concert Page", {
+                        gig_slot_id,
+                        gig_request_id,
+                      });
+                    }}
+                  />
+                  <DesignButton
+                    ButtonText="Decline"
+                    onPress={async () => {
+                      const { gig_request_id } = l;
+                      const gig_request_status = "declined";
+                      await editGigRequest({
+                        gig_request_id,
+                        gig_request_status,
+                      });
+                      setRequests(gigRequest);
+                      // const gig_slot_status = "concert";
+                    }}
+                  />
+                </View>
+              </View>
+            )}
+          />
         </View>
-      </View>
-      <Title titleText={gig_slot_title} />
-      <Title titleText={displayDate} />
-      <Text>
-        from {gig_slot_start_time} to {gig_slot_end_time}
-      </Text>
-      <Text>{gig_slot_description}</Text>
-
-      <View>
-        {gigSlotRequests.map((l, i) => (
-          <ListItem key={i} bottomDivider style={styles.listItem}>
-            <ListItem.Content style={styles.inputRow}>
-              <View>
-                <ListItem.Title style={styles.listTitle}>
-                  {l.artist_name}
-                </ListItem.Title>
-                <ListItem.Subtitle style={styles.listSubtitle}>
-                  {l.artist_genre}
-                </ListItem.Subtitle>
-              </View>
-              <View>
-                <Text>{l.artist_email}</Text>
-                <Text>Cost: {l.gig_request_cost}</Text>
-              </View>
-              <View style={styles.fee}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={async () => {
-                    const {
-                      artist_id,
-                      artist_number_of_members,
-                      artist_name,
-                      artist_solo_instrument,
-                      artist_tech_rider,
-                      artist_genre,
-                      artist_email,
-                      artist_description,
-                      artist_followers,
-                      gig_request_id,
-                      gig_request_cost,
-                    } = l;
-
-                    const gig_request_status = "concert";
-                    const gig_slot_status = "concert";
-                    await editGigRequest({
-                      gig_request_id,
-                      gig_request_status,
-                    });
-                    // SET STATUS OF ALL OTHER GIG REQUESTS TO "DECLINED"
-                    // gigSlotRequests.forEach ((i) => { i.gig_request_id != gig_request_id ? editGigRequest(i.gig_request_id, )})
-                    await editGigSlotStatus({ gig_slot_id, gig_slot_status });
-                    await addConcert({
-                      venue_id,
-                      venue_name,
-                      artist_id,
-                      artist_number_of_members,
-                      artist_name,
-                      artist_solo_instrument,
-                      artist_tech_rider,
-                      artist_genre,
-                      artist_email,
-                      artist_description,
-                      artist_followers,
-                      gig_request_id,
-                      gig_request_cost,
-                      gig_slot_id,
-                      gig_slot_title,
-                      gig_slot_location,
-                      gig_slot_date,
-                      gig_slot_start_time,
-                      gig_slot_end_time,
-                      gig_slot_description,
-                    });
-                    navigation.navigate("Concert Page", {
-                      gig_slot_id,
-                      gig_request_id,
-                    });
-                  }}
-                >
-                  <Text style={styles.buttonText}>Accept</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={async () => {
-                    const { gig_request_id } = l;
-                    const gig_request_status = "declined";
-                    await editGigRequest({
-                      gig_request_id,
-                      gig_request_status,
-                    });
-                    setRequests(gigRequest);
-                    // const gig_slot_status = "concert";
-                  }}
-                >
-                  <Text style={styles.buttonText}>Decline</Text>
-                </TouchableOpacity>
-              </View>
-            </ListItem.Content>
-          </ListItem>
-        ))}
       </View>
     </View>
   );
@@ -198,48 +200,37 @@ const GigSlot = ({ navigation }) => {
 export default GigSlot;
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  container: {
+    height: "100%",
+    alignItems: "center",
+  },
+  card: {
+    paddingTop: 30,
+    flex: 1,
+    width: "100%",
+  },
+  flatlist: {
+    // height: 100,
+    width: "100%",
+    borderColor: "red",
+    borderWidth: 1,
   },
   listItem: {
-    margin: 10,
-    borderWidth: 1,
-    borderColor: "black",
-  },
-  inputRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginVertical: 10,
+    justifyContent: "space-around",
     alignItems: "center",
   },
-  input: {
+  artistInfo: {
+    borderColor: "blue",
     borderWidth: 1,
-    borderColor: "black",
-    width: 80,
-    height: 25,
   },
-  button: {
-    borderWidth: 3,
-    borderColor: "purple",
-    borderRadius: 3,
-    fontWeight: "bold",
-    color: "white",
-    marginHorizontal: 4,
+  gigInfo: {
+    borderColor: "blue",
+    borderWidth: 1,
   },
-  buttonText: {
-    fontWeight: "bold",
-
-    padding: 4,
-  },
-  fee: {
+  buttons: {
+    borderColor: "blue",
+    borderWidth: 1,
     flexDirection: "row",
-    alignItems: "center",
-  },
-  editGigSlot: {
-    alignSelf: "right",
-  },
-  gigSlotView: {
-    alignItems: "center",
   },
 });

@@ -39,14 +39,6 @@ const addArtist =
     artist_youtube,
     artist_website,
   }) => {
-    console.log(
-      user_id,
-      artist_name,
-      artist_genre,
-      artist_number_of_members,
-      artist_solo_instrument,
-      artist_email
-    );
     const response = await ensemblersApi.post("/artists", {
       user_id,
       artist_name,
@@ -65,7 +57,6 @@ const addArtist =
       artist_website,
     });
 
-    console.log(response.data);
     dispatch({ type: "add_artist", payload: response.data });
   };
 

@@ -35,7 +35,7 @@ const VenueGoogleAuth = ({ navigation, route }) => {
   useEffect(() => {
     async function fetchData() {
       const res = await fetch(
-        `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=${venue_google_photo}&key=AIzaSyCuFsKofy_0ovUjWiO7yk6TKk6y7BnNHCc`
+        `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=${venue_photo}&key=AIzaSyCuFsKofy_0ovUjWiO7yk6TKk6y7BnNHCc`
       );
       const data = await res.blob();
       AddressParser.Parse_Reverse_GeoCode_Address(
@@ -58,7 +58,7 @@ const VenueGoogleAuth = ({ navigation, route }) => {
   const { user_id } = user;
   const countryCode = (x) => lookup.byCountry(x).iso2;
 
-  let venue_google_photo = venueSearch.photos[0].photo_reference
+  let venue_photo = venueSearch.photos[0].photo_reference
     ? venueSearch.photos[0].photo_reference
     : "";
   let venue_google_name = venueSearch.name ? venueSearch.name : "";
@@ -77,7 +77,7 @@ const VenueGoogleAuth = ({ navigation, route }) => {
   //   : "";
 
   const [imagePlace, setImage] = useState("");
-  const [venue_photo, setPhoto] = useState("");
+  const [venue_google_photo, setPhoto] = useState("");
   const [venue_name, setName] = useState(venue_google_name);
   const [venue_location, setLocation] = useState("");
   const [venue_website, setWebsite] = useState(google_venue_website);
@@ -149,7 +149,7 @@ const VenueGoogleAuth = ({ navigation, route }) => {
                 <InputTemplate
                   Value={venue_phone_number}
                   OnChangeText={(venue_phone_number) =>
-                    setWebsite(venue_phone_number)
+                    setPhone(venue_phone_number)
                   }
                 />
               }
@@ -202,7 +202,9 @@ const VenueGoogleAuth = ({ navigation, route }) => {
               Content="URL"
               InputHere={
                 <InputTemplate
-                  OnChangeText={(venue_youtube) => setYoutube(venue_youtube)}
+                  OnChangeText={(venue_youtube) =>
+                    setYoutube(`${venue_youtube}`)
+                  }
                 />
               }
             />
@@ -213,7 +215,7 @@ const VenueGoogleAuth = ({ navigation, route }) => {
                   user_id,
                   venue_name,
                   venue_location,
-                  venue_description,
+                  // venue_description,
                   venue_website,
                   venue_type,
                   venue_phone_number,
@@ -221,7 +223,6 @@ const VenueGoogleAuth = ({ navigation, route }) => {
                   venue_instagram,
                   venue_facebook,
                   venue_youtube,
-                  // venue_photo,
                   venue_currency,
                 });
                 navigation.navigate("Venue Page");
