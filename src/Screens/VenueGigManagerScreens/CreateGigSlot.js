@@ -24,7 +24,7 @@ import {
   InputLinks,
 } from "../../components/Input";
 import { InputTemplate } from "../../components/InputTemplate";
-
+import TimePicker from "../../components/TimePicker";
 const CreateGigSlot = ({ route, navigation }) => {
   const { state: venue } = useContext(VenueContext);
   const { addGigSlot } = useContext(GigSlotContext);
@@ -90,6 +90,7 @@ const CreateGigSlot = ({ route, navigation }) => {
               />
             }
           />
+          <TimePicker />
           <DesignButton
             ButtonText="Create Gig Slot"
             OnPress={async () => {

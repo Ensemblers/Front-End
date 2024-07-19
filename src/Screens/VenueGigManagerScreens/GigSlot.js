@@ -57,6 +57,7 @@ const GigSlot = ({ navigation }) => {
   } = useContext(GigRequestContext);
 
   const [requests, setRequests] = useState("");
+  const [expanded, setExpanded] = useState();
 
   const thisGigSlot = gigSlot[0];
 
