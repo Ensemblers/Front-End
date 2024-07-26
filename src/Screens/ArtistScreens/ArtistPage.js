@@ -22,10 +22,9 @@ const ArtistPage = ({ navigation }) => {
   const { state: user } = useContext(AuthContext);
 
   const [thisArtist, setThisArtist] = useState("");
-  console.log(artist[0]);
   const { user_id } = user;
 
-  const artist_user_id = user.user_id;
+  const artist_user_id = artist[0].user_id;
 
   const {
     artist_id,

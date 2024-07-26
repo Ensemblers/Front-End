@@ -124,7 +124,7 @@ const GigSlot = ({ navigation }) => {
                 <View style={styles.buttons}>
                   <DesignButton
                     ButtonText="Accept"
-                    onPress={async () => {
+                    OnPress={async () => {
                       const {
                         artist_id,
                         artist_number_of_members,
@@ -137,7 +137,7 @@ const GigSlot = ({ navigation }) => {
                         artist_followers,
                         gig_request_id,
                         gig_request_cost,
-                      } = l;
+                      } = item;
                       const gig_request_status = "concert";
                       const gig_slot_status = "concert";
                       await editGigRequest({
@@ -213,25 +213,15 @@ const styles = StyleSheet.create({
   flatlist: {
     // height: 100,
     width: "100%",
-    borderColor: "red",
-    borderWidth: 1,
   },
   listItem: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
   },
-  artistInfo: {
-    borderColor: "blue",
-    borderWidth: 1,
-  },
-  gigInfo: {
-    borderColor: "blue",
-    borderWidth: 1,
-  },
+  artistInfo: {},
+  gigInfo: {},
   buttons: {
-    borderColor: "blue",
-    borderWidth: 1,
     flexDirection: "row",
   },
 });

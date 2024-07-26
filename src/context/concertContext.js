@@ -70,7 +70,6 @@ const addConcert =
       gig_slot_end_time,
       gig_slot_description,
     });
-
     dispatch({ type: "add_concert", payload: response.data });
   };
 

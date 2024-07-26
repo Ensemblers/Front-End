@@ -11,6 +11,7 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { ListItem } from "@rneui/themed";
 import { Context as ArtistContext } from "../../context/ArtistContext";
+import { ScrollView } from "react-native-gesture-handler";
 
 const ShowAllArtistsScreen = ({ navigation }) => {
   const {
@@ -35,28 +36,30 @@ const ShowAllArtistsScreen = ({ navigation }) => {
         <Text style={styles.headerTitle}>ARTISTS</Text>
       </View>
       <View>
-        {artist.map((l, i) => (
-          <ListItem key={i} bottomDivider style={styles.listItem}>
-            {/* <Avatar source={{ uri: "" }} /> */}
-            <ListItem.Content>
-              <TouchableOpacity
-                onPress={() => {
-                  const artist_id = l.artist_id;
+        <ScrollView>
+          {artist.map((l, i) => (
+            <ListItem key={i} bottomDivider style={styles.listItem}>
+              {/* <Avatar source={{ uri: "" }} /> */}
+              <ListItem.Content>
+                <TouchableOpacity
+                  onPress={() => {
+                    const artist_id = l.artist_id;
 
-                  getArtist(artist_id);
-                  navigation.navigate("Artist Page");
-                }}
-              >
-                <ListItem.Title style={styles.listTitle}>
-                  {l.artist_name}
-                </ListItem.Title>
-                <ListItem.Subtitle style={styles.listSubtitle}>
-                  {l.artist_genre}
-                </ListItem.Subtitle>
-              </TouchableOpacity>
-            </ListItem.Content>
-          </ListItem>
-        ))}
+                    getArtist(artist_id);
+                    navigation.navigate("Artist Page");
+                  }}
+                >
+                  <ListItem.Title style={styles.listTitle}>
+                    {l.artist_name}
+                  </ListItem.Title>
+                  <ListItem.Subtitle style={styles.listSubtitle}>
+                    {l.artist_genre}
+                  </ListItem.Subtitle>
+                </TouchableOpacity>
+              </ListItem.Content>
+            </ListItem>
+          ))}
+        </ScrollView>
       </View>
     </View>
   );

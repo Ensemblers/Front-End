@@ -85,9 +85,8 @@ const SignUpScreen = ({ navigation }) => {
               OnPress={
                 password === confirmPassword
                   ? () => {
-                      // console.log(email, password);
                       signup({ email, password });
-                      navigation.navigate("SignIn", {email});
+                      navigation.navigate("SignIn", { email });
                     }
                   : console.log("Passwords don't match")
               }

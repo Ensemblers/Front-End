@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { ListItem } from "@rneui/themed";
 import { Context as VenueContext } from "../../context/VenueContext";
+import { ScrollView } from "react-native-gesture-handler";
 
 const ShowAllVenuesScreen = ({ navigation }) => {
   const [data, setData] = useState(null);
@@ -37,34 +38,40 @@ const ShowAllVenuesScreen = ({ navigation }) => {
         <Text style={styles.headerTitle}>VENUES</Text>
       </View>
       <View>
-        {venue.map((l, i) => (
-          <ListItem key={i} bottomDivider style={styles.listItem}>
-            {/* <Avatar source={{ uri: "" }} /> */}
-            <ListItem.Content>
-              <TouchableOpacity
-                onPress={() => {
-                  const venue_id = l.venue_id;
+        <ScrollView style={styles.scrollView}>
+          {venue.map((l, i) => (
+            <ListItem key={i} bottomDivider style={styles.listItem}>
+              {/* <Avatar source={{ uri: "" }} /> */}
+              <ListItem.Content>
+                <TouchableOpacity
+                  onPress={() => {
+                    const venue_id = l.venue_id;
 
-                  getVenue(venue_id);
-                  navigation.navigate("Venue Page");
-                }}
-              >
-                <ListItem.Title style={styles.listTitle}>
-                  {l.venue_name}
-                </ListItem.Title>
-                <ListItem.Subtitle style={styles.listSubtitle}>
-                  {l.venue_location}
-                </ListItem.Subtitle>
-              </TouchableOpacity>
-            </ListItem.Content>
-          </ListItem>
-        ))}
+                    getVenue(venue_id);
+                    navigation.navigate("Venue Page");
+                  }}
+                >
+                  <ListItem.Title style={styles.listTitle}>
+                    {l.venue_name}
+                  </ListItem.Title>
+                  <ListItem.Subtitle style={styles.listSubtitle}>
+                    {l.venue_location}
+                  </ListItem.Subtitle>
+                </TouchableOpacity>
+              </ListItem.Content>
+            </ListItem>
+          ))}
+        </ScrollView>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollView: {
+    borderWidth: 1,
+    borderColor: "red",
+  },
   headerRow: {
     alignItems: "center",
     justifyContent: "center",
